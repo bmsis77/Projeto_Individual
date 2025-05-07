@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo - Quiz</title>
+    <link rel="stylesheet" href="quiztyle.css">
+</head>
+
+
+<body onload="onloadEsconder()">
+    <div id="pontuacaoEJogo">
+        <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
+        <div id="pontuacao" class="flex-colunar width-fit-content border-primary">
+            <div id="pontuacaoDuranteJogo" class="flex-colunar padding-8" style="display: none;">
+                <span class="width-fit-content">Quantidade de acertos: <span id="spanCertas"></span></span>
+                <span class="width-fit-content">Quantidade de erros: <span id="spanErradas"></span></span>
+            </div>
+            <div id="pontuacaoFinalJogo" class="flex-colunar padding-8" style="display: none;">
+                <span id="pontuacaoFinal" class="width-fit-content">Pontuação Final:
+                    <span id="spanPontuacaoFinal">***</span>
+                </span>
+                <span id="msgFinal" class="width-fit-content">***</span>
+            </div>
+        </div>
+        
+
+        <div id="jogo" class="width-fit-content flex-colunar border-secondary">
+
+            <div id="infoQuestao" class="padding-8">
+                <span>Questão atual: <span id="spanNumeroDaQuestaoAtual"></span> de <span id="qtdQuestoes"></span>
+                    questões.</span>
+            </div>
+
+            <div id="perguntaDaQuestaoAtual" class="padding-8">
+                <span id="spanQuestaoExibida" class="text-bold"></span>
+            </div>
+
+            <div id="infoAlternativas" class="padding-8">
+                <span><em>Escolha uma opção dentre as abaixo:</em></span>
+            </div>
+
+            <div id="opcoes" class="flex-colunar padding-8">
+                <span>
+                    <input type="radio" id="primeiraOpcao" name="option" class="radio" value="alternativaA" />
+                    <label for="primeiraOpcao" class="option" id="labelOpcaoUm"></label>
+                </span>
+                <span>
+                    <input type="radio" id="segundaOpcao" name="option" class="radio" value="alternativaB" />
+                    <label for="segundaOpcao" class="option" id="labelOpcaoDois"></label>
+                </span>
+                <span>
+                    <input type="radio" id="terceiraOpcao" name="option" class="radio" value="alternativaC" />
+                    <label for="terceiraOpcao" class="option" id="labelOpcaoTres"></label>
+                </span>
+                <span>
+                    <input type="radio" id="quartaOpcao" name="option" class="radio" value="alternativaD" />
+                    <label for="quartaOpcao" class="option" id="labelOpcaoQuatro"></label>
+                </span>
+            </div>
+
+            <div id="botoes" class="flex-colunar padding-8">
+                <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
+                <button onclick="avancar()" id="btnProx" disabled>Avançar para próxima questão</button>
+                <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    const listaDeQuestoes = [
+    {
+        pergunta: "Quem é o maior artilheiro da história do Palmeiras?",
+        alternativaA: "Jair Rosa Pinto",
+        alternativaB: "Luizão",
+        alternativaC: "Edu",
+        alternativaD: "Fernando Prass",
+        alternativaCorreta: "alternativaA"
+    },
+    {
+        pergunta: "Em que ano o Palmeiras foi fundado?",
+        alternativaA: "1914",
+        alternativaB: "1912",
+        alternativaC: "1900",
+        alternativaD: "1910",
+        alternativaCorreta: "alternativaB"
+    },
+    {
+        pergunta: "Quantos títulos do Campeonato Brasileiro o Palmeiras possui?",
+        alternativaA: "8",
+        alternativaB: "10",
+        alternativaC: "11",
+        alternativaD: "11",
+        alternativaCorreta: "alternativaD"
+    },
+    {
+        pergunta: "Quem foi o técnico do Palmeiras na conquista da Copa do Brasil de 1998?",
+        alternativaA: "Felipão",
+        alternativaB: "Cuca",
+        alternativaC: "Vanderlei Luxemburgo",
+        alternativaD: "Oswaldo de Oliveira",
+        alternativaCorreta: "alternativaC"
+    },
+    {
+        pergunta: "Em qual estádio o Palmeiras manda seus jogos?",
+        alternativaA: "Estádio do Morumbi",
+        alternativaB: "Arena da Baixada",
+        alternativaC: "Arena Palmeiras",
+        alternativaD: "Pacaembu",
+        alternativaCorreta: "alternativaC"
+    },
+    {
+        pergunta: "Quem é o maior ídolo da história do Palmeiras?",
+        alternativaA: "Edmundo",
+        alternativaB: "Djalma Santos",
+        alternativaC: "Cesar Maluco",
+        alternativaD: "Marcos",
+        alternativaCorreta: "alternativaD"
+    },
+    {
+        pergunta: "Quem foi o maior artilheiro do Palmeiras no Campeonato Paulista?",
+        alternativaA: "Rivaldo",
+        alternativaB: "Evair",
+        alternativaC: "Felipão",
+        alternativaD: "São Marcos",
+        alternativaCorreta: "alternativaB"
+    },
+    {
+        pergunta: "Qual é o maior rival do Palmeiras?",
+        alternativaA: "São Paulo",
+        alternativaB: "Santos",
+        alternativaC: "Flamengo",
+        alternativaD: "Corinthians",
+        alternativaCorreta: "alternativaD"
+    },
+    {
+        pergunta: "Qual o nome do torcedor do Palmeiras que ficou famoso por sua relação com o time?",
+        alternativaA: "Palmeirense do coração",
+        alternativaB: "Palmeiras campeão",
+        alternativaC: "Palestrino",
+        alternativaD: "Porco",
+        alternativaCorreta: "alternativaC"
+    },
+    {
+        pergunta: "Quantos títulos da Copa Libertadores o Palmeiras tem?",
+        alternativaA: "2",
+        alternativaB: "3",
+        alternativaC: "4",
+        alternativaD: "5",
+        alternativaCorreta: "alternativaA"
+    },
+    {
+        pergunta: "Em qual ano o Palmeiras venceu sua primeira Copa do Mundo de Clubes?",
+        alternativaA: "2000",
+        alternativaB: "2006",
+        alternativaC: "2010",
+        alternativaD: "2020",
+        alternativaCorreta: "alternativaA"
+    },
+    {
+        pergunta: "Qual o nome da torcida organizada mais famosa do Palmeiras?",
+        alternativaA: "Mancha Verde",
+        alternativaB: "Gaviões da Fiel",
+        alternativaC: "Torcida Jovem",
+        alternativaD: "Imperio Serrano",
+        alternativaCorreta: "alternativaA"
+    },
+    {
+        pergunta: "Quem foi o jogador que mais vezes vestiu a camisa do Palmeiras?",
+        alternativaA: "São Marcos",
+        alternativaB: "César Maluco",
+        alternativaC: "Juninho Paulista",
+        alternativaD: "Cleyton",
+        alternativaCorreta: "alternativaA"
+    },
+    {
+        pergunta: "Quem foi o primeiro jogador do Palmeiras a vencer a Bola de Ouro da FIFA?",
+        alternativaA: "Edmundo",
+        alternativaB: "Djalma Santos",
+        alternativaC: "Jair Rosa Pinto",
+        alternativaD: "Marcos",
+        alternativaCorreta: "alternativaB"
+    },
+    {
+        pergunta: "Qual o nome do maior título conquistado pelo Palmeiras?",
+        alternativaA: "Copa do Brasil",
+        alternativaB: "Campeonato Paulista",
+        alternativaC: "Copa Libertadores",
+        alternativaD: "Copa América",
+        alternativaCorreta: "alternativaC"
+    }
+];
+
+    let numeroDaQuestaoAtual = 0
+    let pontuacaoFinal = 0
+    let tentativaIncorreta = 0
+    let certas = 0
+    let erradas = 0
+    let quantidadeDeQuestoes = listaDeQuestoes.length
+
+    function onloadEsconder() {
+        document.getElementById('pontuacao').style.display = "none"
+        document.getElementById('jogo').style.display = "none"
+    }
+
+    function iniciarQuiz() {
+        document.getElementById('pontuacao').style.display = "flex"
+        document.getElementById('jogo').style.display = "flex"
+        document.getElementById('btnIniciarQuiz').style.display = "none"
+
+        document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes
+
+        preencherHTMLcomQuestaoAtual(0)
+
+        btnSubmeter.disabled = false
+        btnProx.disabled = true
+        btnTentarNovamente.disabled = true
+    }
+
+    function preencherHTMLcomQuestaoAtual(index) {
+        habilitarAlternativas(true)
+        const questaoAtual = listaDeQuestoes[index]
+        numeroDaQuestaoAtual = index
+        console.log("questaoAtual")
+        console.log(questaoAtual)
+        document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = Number(index) + 1
+        document.getElementById("spanQuestaoExibida").innerHTML = questaoAtual.pergunta;
+        document.getElementById("labelOpcaoUm").innerHTML = questaoAtual.alternativaA;
+        document.getElementById("labelOpcaoDois").innerHTML = questaoAtual.alternativaB;
+        document.getElementById("labelOpcaoTres").innerHTML = questaoAtual.alternativaC;
+        document.getElementById("labelOpcaoQuatro").innerHTML = questaoAtual.alternativaD;
+    }
+
+    function submeter() {
+        const options = document.getElementsByName("option");
+
+        let hasChecked = false
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].checked) {
+                hasChecked = true
+                break
+            }
+        }
+
+        if (!hasChecked) {
+            alert("Não há alternativas escolhidas. Escolha uma opção.")
+        } else {
+            btnSubmeter.disabled = true
+            btnProx.disabled = false
+
+            habilitarAlternativas(false)
+
+            checarResposta()
+        }
+    }
+
+    function habilitarAlternativas(trueOrFalse) {
+        let opcaoEscolhida = trueOrFalse ? false : true
+
+        primeiraOpcao.disabled = opcaoEscolhida
+        segundaOpcao.disabled = opcaoEscolhida
+        terceiraOpcao.disabled = opcaoEscolhida
+        quartaOpcao.disabled = opcaoEscolhida
+
+    }
+
+    function avancar() {
+        btnProx.disabled = true
+        btnSubmeter.disabled = false
+
+        desmarcarRadioButtons()
+
+        if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual)
+        } else if (numeroDaQuestaoAtual == quantidadeDeQuestoes - 1) {
+            alert("Atenção... a próxima é a ultima questão!")
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual)
+        } else {
+            finalizarJogo()
+        }
+        limparCoresBackgroundOpcoes()
+    }
+
+    function tentarNovamente() {
+
+        window.location.reload()
+    }
+
+    function checarResposta() {
+        const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual] 
+        const respostaQuestaoAtual = questaoAtual.alternativaCorreta 
+
+        const options = document.getElementsByName("option");
+
+        let alternativaCorreta = null 
+
+        options.forEach((option) => {
+            if (option.value === respostaQuestaoAtual) {
+                console.log("alternativaCorreta está no componente: " + alternativaCorreta)
+                alternativaCorreta = option.labels[0].id
+            }
+        })
+
+        options.forEach((option) => {
+            if (option.checked === true && option.value === respostaQuestaoAtual) {
+                document.getElementById(alternativaCorreta).classList.add("text-success-with-bg")
+                pontuacaoFinal++
+                certas++
+                document.getElementById("spanCertas").innerHTML = certas
+                numeroDaQuestaoAtual++
+            } else if (option.checked && option.value !== respostaQuestaoAtual) {
+                const wrongLabelId = option.labels[0].id
+
+                document.getElementById(wrongLabelId).classList.add("text-danger-with-bg")
+                document.getElementById(alternativaCorreta).classList.add("text-success-with-bg")
+                tentativaIncorreta++
+                erradas++
+                document.getElementById("spanErradas").innerHTML = erradas
+                numeroDaQuestaoAtual++
+            }
+        })
+    }
+
+    function limparCoresBackgroundOpcoes() {
+        const options = document.getElementsByName("option");
+        options.forEach((option) => {
+            document.getElementById(option.labels[0].id).classList.remove("text-danger-with-bg")
+            document.getElementById(option.labels[0].id).classList.remove("text-success-with-bg")
+        })
+    }
+
+    function desmarcarRadioButtons() {
+        const options = document.getElementsByName("option");
+        for (let i = 0; i < options.length; i++) {
+            options[i].checked = false;
+        }
+    }
+
+    function finalizarJogo() {
+    let textoParaMensagemFinal = null
+    let classComCoresParaMensagemFinal = null
+    const porcentagemFinalDeAcertos = pontuacaoFinal / quantidadeDeQuestoes
+
+    document.getElementById('pontuacaoDuranteJogo').style.display = "none";
+
+    document.getElementById('pontuacaoFinalJogo').style.display = "flex";
+
+    if (porcentagemFinalDeAcertos <= 0.3) {
+        textoParaMensagemFinal = "Parece que você não estudou..."
+        classComCoresParaMensagemFinal = "text-danger-with-bg"
+    }
+    else if (porcentagemFinalDeAcertos > 0.3 && porcentagemFinalDeAcertos < 0.9) {
+        textoParaMensagemFinal = "Pode melhorar na próxima, hein!"
+        classComCoresParaMensagemFinal = "text-warning-with-bg"
+    }
+    else if (porcentagemFinalDeAcertos >= 0.9) {
+        textoParaMensagemFinal = "Uau, parabéns!"
+        classComCoresParaMensagemFinal = "text-success-with-bg"
+    }
+
+    textoParaMensagemFinal += "<br> Você acertou " + Math.round((porcentagemFinalDeAcertos)*100) + "% das questões."
+
+    document.getElementById('msgFinal').innerHTML = textoParaMensagemFinal
+    document.getElementById('msgFinal').classList.add(classComCoresParaMensagemFinal)
+    document.getElementById('spanPontuacaoFinal').innerHTML = pontuacaoFinal
+
+    document.getElementById('jogo').classList.add("text-new-gray")
+
+    btnProx.disabled = true
+    btnSubmeter.disabled = true
+    btnTentarNovamente.disabled = false
+}
+
+</script>
