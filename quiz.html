@@ -4,28 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exemplo - Quiz</title>
+    <title>CoraçãoVerdeBranco/Quiz</title>
     <link rel="stylesheet" href="quiztyle.css">
 </head>
 
 
 <body onload="onloadEsconder()">
-    <div id="pontuacaoEJogo">
+    <div class="container">
         <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
-        <div id="pontuacao" class="flex-colunar width-fit-content border-primary">
-            <div id="pontuacaoDuranteJogo" class="flex-colunar padding-8" style="display: none;">
-                <span class="width-fit-content">Quantidade de acertos: <span id="spanCertas"></span></span>
-                <span class="width-fit-content">Quantidade de erros: <span id="spanErradas"></span></span>
-            </div>
-            <div id="pontuacaoFinalJogo" class="flex-colunar padding-8" style="display: none;">
-                <span id="pontuacaoFinal" class="width-fit-content">Pontuação Final:
-                    <span id="spanPontuacaoFinal">***</span>
-                </span>
-                <span id="msgFinal" class="width-fit-content">***</span>
-            </div>
+    <div id="pontuacaoEJogo"></div>
+    <div id="pontuacao"  class="flex-colunar width-fit-content border-primary">
+        <div id="pontuacaoDuranteJogo" class="flex-colunar padding-8">
+            <span class="width-fit-content">Quantidade de acertos: <span id="spanCertas"></span></span>
+            <span class="width-fit-content">Quantidade de erros: <span id="spanErradas"></span></span>
         </div>
-        
-
+        <div id="pontuacaoFinalJogo" class="flex-colunar padding-8">
+            <span id="pontuacaoFinal" class="width-fit-content">Pontuação Final:
+                <span id="spanPontuacaoFinal">***</span>
+            </span>
+            <span id="msgFinal" class="width-fit-content">***</span>
+        </div>
+    </div>
         <div id="jogo" class="width-fit-content flex-colunar border-secondary">
 
             <div id="infoQuestao" class="padding-8">
@@ -63,144 +62,153 @@
             <div id="botoes" class="flex-colunar padding-8">
                 <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
                 <button onclick="avancar()" id="btnProx" disabled>Avançar para próxima questão</button>
+                <!-- <button onclick="finalizar()" id="btnConcluir" disabled>Finalizar Quiz</button> -->
                 <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
             </div>
-
+</div>
         </div>
+    </div>
+    </div>
     </div>
 </body>
 
 </html>
 <script>
     const listaDeQuestoes = [
-    {
-        pergunta: "Quem é o maior artilheiro da história do Palmeiras?",
-        alternativaA: "Jair Rosa Pinto",
-        alternativaB: "Luizão",
-        alternativaC: "Edu",
-        alternativaD: "Fernando Prass",
-        alternativaCorreta: "alternativaA"
-    },
-    {
-        pergunta: "Em que ano o Palmeiras foi fundado?",
-        alternativaA: "1914",
-        alternativaB: "1912",
-        alternativaC: "1900",
-        alternativaD: "1910",
-        alternativaCorreta: "alternativaB"
-    },
-    {
-        pergunta: "Quantos títulos do Campeonato Brasileiro o Palmeiras possui?",
-        alternativaA: "8",
-        alternativaB: "10",
-        alternativaC: "11",
-        alternativaD: "11",
-        alternativaCorreta: "alternativaD"
-    },
-    {
-        pergunta: "Quem foi o técnico do Palmeiras na conquista da Copa do Brasil de 1998?",
-        alternativaA: "Felipão",
-        alternativaB: "Cuca",
-        alternativaC: "Vanderlei Luxemburgo",
-        alternativaD: "Oswaldo de Oliveira",
-        alternativaCorreta: "alternativaC"
-    },
-    {
-        pergunta: "Em qual estádio o Palmeiras manda seus jogos?",
-        alternativaA: "Estádio do Morumbi",
-        alternativaB: "Arena da Baixada",
-        alternativaC: "Arena Palmeiras",
-        alternativaD: "Pacaembu",
-        alternativaCorreta: "alternativaC"
-    },
-    {
-        pergunta: "Quem é o maior ídolo da história do Palmeiras?",
-        alternativaA: "Edmundo",
-        alternativaB: "Djalma Santos",
-        alternativaC: "Cesar Maluco",
-        alternativaD: "Marcos",
-        alternativaCorreta: "alternativaD"
-    },
-    {
-        pergunta: "Quem foi o maior artilheiro do Palmeiras no Campeonato Paulista?",
-        alternativaA: "Rivaldo",
-        alternativaB: "Evair",
-        alternativaC: "Felipão",
-        alternativaD: "São Marcos",
-        alternativaCorreta: "alternativaB"
-    },
-    {
-        pergunta: "Qual é o maior rival do Palmeiras?",
-        alternativaA: "São Paulo",
-        alternativaB: "Santos",
-        alternativaC: "Flamengo",
-        alternativaD: "Corinthians",
-        alternativaCorreta: "alternativaD"
-    },
-    {
-        pergunta: "Qual o nome do torcedor do Palmeiras que ficou famoso por sua relação com o time?",
-        alternativaA: "Palmeirense do coração",
-        alternativaB: "Palmeiras campeão",
-        alternativaC: "Palestrino",
-        alternativaD: "Porco",
-        alternativaCorreta: "alternativaC"
-    },
-    {
-        pergunta: "Quantos títulos da Copa Libertadores o Palmeiras tem?",
-        alternativaA: "2",
-        alternativaB: "3",
-        alternativaC: "4",
-        alternativaD: "5",
-        alternativaCorreta: "alternativaA"
-    },
-    {
-        pergunta: "Em qual ano o Palmeiras venceu sua primeira Copa do Mundo de Clubes?",
-        alternativaA: "2000",
-        alternativaB: "2006",
-        alternativaC: "2010",
-        alternativaD: "2020",
-        alternativaCorreta: "alternativaA"
-    },
-    {
-        pergunta: "Qual o nome da torcida organizada mais famosa do Palmeiras?",
-        alternativaA: "Mancha Verde",
-        alternativaB: "Gaviões da Fiel",
-        alternativaC: "Torcida Jovem",
-        alternativaD: "Imperio Serrano",
-        alternativaCorreta: "alternativaA"
-    },
-    {
-        pergunta: "Quem foi o jogador que mais vezes vestiu a camisa do Palmeiras?",
-        alternativaA: "São Marcos",
-        alternativaB: "César Maluco",
-        alternativaC: "Juninho Paulista",
-        alternativaD: "Cleyton",
-        alternativaCorreta: "alternativaA"
-    },
-    {
-        pergunta: "Quem foi o primeiro jogador do Palmeiras a vencer a Bola de Ouro da FIFA?",
-        alternativaA: "Edmundo",
-        alternativaB: "Djalma Santos",
-        alternativaC: "Jair Rosa Pinto",
-        alternativaD: "Marcos",
-        alternativaCorreta: "alternativaB"
-    },
-    {
-        pergunta: "Qual o nome do maior título conquistado pelo Palmeiras?",
-        alternativaA: "Copa do Brasil",
-        alternativaB: "Campeonato Paulista",
-        alternativaC: "Copa Libertadores",
-        alternativaD: "Copa América",
-        alternativaCorreta: "alternativaC"
-    }
-];
 
+        {
+            pergunta: "Qual era o nome original do clube?",
+            alternativaA: "Palmeiras Futebol Clube",
+            alternativaB: "Palestra Itália",
+            alternativaC: "Palmeiras Itália",
+            alternativaD: "Palestra de São Paulo",
+            alternativaCorreta: "alternativaB"
+        },
+
+        {
+            pergunta: "Qual a data de fundação do Palmeiras?",
+            alternativaA: "26-08-1914",
+            alternativaB: "24-08-1914",
+            alternativaC: "26-06-1917",
+            alternativaD: "24-04-1910",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Qual o nome da principal torcida organizada do Palmeiras?",
+            alternativaA: "Máfia Verde",
+            alternativaB: "Império Verde",
+            alternativaC: "Mancha Alvi-Verde",
+            alternativaD: "Esquadrão Alvi-Verde",
+            alternativaCorreta: "alternativaC"
+        },
+        {
+            pergunta: "Qual foi o ano do primeiro título da Libertadores conquistado pelo Palmeiras?",
+            alternativaA: "1999",
+            alternativaB: "2021",
+            alternativaC: "2000",
+            alternativaD: "1993",
+            alternativaCorreta: "alternativaA"
+        },
+        {
+            pergunta: "Qual foi a campanha histórica do Palmeiras que ficou conhecida como 'Arrancada Heroica'?",
+            alternativaA: "Torneio Internacional de Clubes 1951",
+            alternativaB: "Libertadores 1999",
+            alternativaC: "Paulistão 1993",
+            alternativaD: "Paulistão 1942",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "Como é chamado o clássico confronto entre Palmeiras e Santos?",
+            alternativaA: "Majestoso",
+            alternativaB: "Clássico da Saudade",
+            alternativaC: "Choque-Rei",
+            alternativaD: "Derby Paulista",
+            alternativaCorreta: "alternativaB"
+        },
+        {
+            pergunta: "Qual jogador é o maior artilheiro da história do Palmeiras?",
+            alternativaA: "Heitor",
+            alternativaB: "Ademir da Guia",
+            alternativaC: "Evair",
+            alternativaD: "Dudu",
+            alternativaCorreta: "alternativaA"
+        },
+        {
+            pergunta: "Qual jogador fez o 'gol decisivo' na libertadores 2020?",
+            alternativaA: "Raphael Veiga",
+            alternativaB: "Deyverson",
+            alternativaC: "Patrick de Paula",
+            alternativaD: "Brenno Lopes",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "Qual foi a frase dita após não deixarem o nome continuar Palestra Itália?",
+            alternativaA: "Avanti Palestra",
+            alternativaB: "Se não podemos ser Palestra, seremos Palmeiras",
+            alternativaC: "De Palestra a Palmeiras",
+            alternativaD: "Cabeça fria, Coração Quente",
+            alternativaCorreta: "alternativaB"
+        },
+        {
+            pergunta: "Qual foi o primeiro mascote oficial do Palmeiras?",
+            alternativaA: "Porco Gobatto",
+            alternativaB: "Mancha Verde",
+            alternativaC: "Papagaio",
+            alternativaD: "Periquito",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "O Palmeiras foi o único clube na história a representar a Seleção Brasileira, cedendo tanto o elenco quanto a comissão técnica.,<br>contra que páis foi o jogo, e quanto foi?",
+            alternativaA: "Brasil 3 x 0 Uruguai",
+            alternativaB: "Brasil 2 x 1 Itália",
+            alternativaC: "Brasil 3 x 3 Argentina",
+            alternativaD: "Brasil 3 x 3 Uruguai",
+            alternativaCorreta: "alternativaA"
+        },
+        {
+            pergunta: "Qual jogador do Palmeiras é o recordista de títulos conquistados pelo clube",
+            alternativaA: "Marcos",
+            alternativaB: "G.Gómez",
+            alternativaC: "Ademir da Guia",
+            alternativaD: "Dudu",
+            alternativaCorreta: "alternativaD"
+        },
+        {
+            pergunta: "Qual foi a maior goleada da história do Palmeiras sobre o maior rival?",
+            alternativaA: "6x0",
+            alternativaB: "7x1",
+            alternativaC: "8x0",
+            alternativaD: "5x1",
+            alternativaCorreta: "alternativaC"
+        },
+        {
+            pergunta: "Qual foi o rival europeu que o verdão enfrentou no histórico título do Torneio Internacional de Clubes 1951",
+            alternativaA: "Chelsea",
+            alternativaB: "Juventus",
+            alternativaC: "Real Madrid",
+            alternativaD: "Manchester United",
+            alternativaCorreta: "alternativaB"
+        },
+        {
+            pergunta: "Quais foram os jogadores que fizeram os gols na histórica vitoria de 4x0 contra o seu maior rival,<br>Crédito Para Negativado!",
+            alternativaA: "Deyverson e Raphael Veiga",
+            alternativaB: "Raphael Veiga e Luiz Adriano",
+            alternativaC: "Rony, Luiz Adriano e Raphael Veiga",
+            alternativaD: "Rafael Marques e Dudu",
+            alternativaCorreta: "alternativaB"
+        }
+
+    ]
+
+    // variáveis globais    
     let numeroDaQuestaoAtual = 0
     let pontuacaoFinal = 0
     let tentativaIncorreta = 0
     let certas = 0
     let erradas = 0
     let quantidadeDeQuestoes = listaDeQuestoes.length
+    // let isUltima = numeroDaQuestaoAtual == quantidadeDeQuestoes-1 ? true : false
 
     function onloadEsconder() {
         document.getElementById('pontuacao').style.display = "none"
@@ -218,6 +226,7 @@
 
         btnSubmeter.disabled = false
         btnProx.disabled = true
+        // btnConcluir.disabled = true
         btnTentarNovamente.disabled = true
     }
 
@@ -227,7 +236,7 @@
         numeroDaQuestaoAtual = index
         console.log("questaoAtual")
         console.log(questaoAtual)
-        document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = Number(index) + 1
+        document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = Number(index) + 1 // ajustando porque o index começa em 0
         document.getElementById("spanQuestaoExibida").innerHTML = questaoAtual.pergunta;
         document.getElementById("labelOpcaoUm").innerHTML = questaoAtual.alternativaA;
         document.getElementById("labelOpcaoDois").innerHTML = questaoAtual.alternativaB;
@@ -236,7 +245,7 @@
     }
 
     function submeter() {
-        const options = document.getElementsByName("option");
+        const options = document.getElementsByName("option"); // recupera alternativas no html
 
         let hasChecked = false
         for (let i = 0; i < options.length; i++) {
@@ -286,17 +295,17 @@
     }
 
     function tentarNovamente() {
-
+        // atualiza a página
         window.location.reload()
     }
 
     function checarResposta() {
-        const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual] 
-        const respostaQuestaoAtual = questaoAtual.alternativaCorreta 
+        const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual] // questão atual 
+        const respostaQuestaoAtual = questaoAtual.alternativaCorreta // qual é a resposta correta da questão atual
 
-        const options = document.getElementsByName("option");
+        const options = document.getElementsByName("option"); // recupera alternativas no html
 
-        let alternativaCorreta = null 
+        let alternativaCorreta = null // variável para armazenar a alternativa correta
 
         options.forEach((option) => {
             if (option.value === respostaQuestaoAtual) {
@@ -305,6 +314,7 @@
             }
         })
 
+        // verifica se resposta assinalada é correta
         options.forEach((option) => {
             if (option.checked === true && option.value === respostaQuestaoAtual) {
                 document.getElementById(alternativaCorreta).classList.add("text-success-with-bg")
@@ -341,38 +351,36 @@
     }
 
     function finalizarJogo() {
-    let textoParaMensagemFinal = null
-    let classComCoresParaMensagemFinal = null
-    const porcentagemFinalDeAcertos = pontuacaoFinal / quantidadeDeQuestoes
+        let textoParaMensagemFinal = null
+        let classComCoresParaMensagemFinal = null
+        const porcentagemFinalDeAcertos = pontuacaoFinal / quantidadeDeQuestoes
 
-    document.getElementById('pontuacaoDuranteJogo').style.display = "none";
+        if (porcentagemFinalDeAcertos <= 0.3) {
+            textoParaMensagemFinal = "Parece que você não estudou..."
+            classComCoresParaMensagemFinal = "text-danger-with-bg"
+        }
+        else if (porcentagemFinalDeAcertos > 0.3 && porcentagemFinalDeAcertos < 0.9) {
+            textoParaMensagemFinal = "Pode melhorar na próxima, hein!"
+            classComCoresParaMensagemFinal = "text-warning-with-bg"
+        }
+        else if (porcentagemFinalDeAcertos >= 0.9) {
+            textoParaMensagemFinal = "Uau, parabéns!"
+            classComCoresParaMensagemFinal = "text-success-with-bg"
+        }
 
-    document.getElementById('pontuacaoFinalJogo').style.display = "flex";
+        textoParaMensagemFinal += "<br> Você acertou " + Math.round((porcentagemFinalDeAcertos) * 100) + "% das questões."
 
-    if (porcentagemFinalDeAcertos <= 0.3) {
-        textoParaMensagemFinal = "Parece que você não estudou..."
-        classComCoresParaMensagemFinal = "text-danger-with-bg"
+
+        document.getElementById('msgFinal').innerHTML = textoParaMensagemFinal
+        document.getElementById('msgFinal').classList.add(classComCoresParaMensagemFinal)
+        document.getElementById('spanPontuacaoFinal').innerHTML = pontuacaoFinal
+
+        document.getElementById('jogo').classList.add("text-new-gray")
+
+        btnProx.disabled = true
+        btnSubmeter.disabled = true
+        // btnConcluir.disabled = true
+        btnTentarNovamente.disabled = false
+
     }
-    else if (porcentagemFinalDeAcertos > 0.3 && porcentagemFinalDeAcertos < 0.9) {
-        textoParaMensagemFinal = "Pode melhorar na próxima, hein!"
-        classComCoresParaMensagemFinal = "text-warning-with-bg"
-    }
-    else if (porcentagemFinalDeAcertos >= 0.9) {
-        textoParaMensagemFinal = "Uau, parabéns!"
-        classComCoresParaMensagemFinal = "text-success-with-bg"
-    }
-
-    textoParaMensagemFinal += "<br> Você acertou " + Math.round((porcentagemFinalDeAcertos)*100) + "% das questões."
-
-    document.getElementById('msgFinal').innerHTML = textoParaMensagemFinal
-    document.getElementById('msgFinal').classList.add(classComCoresParaMensagemFinal)
-    document.getElementById('spanPontuacaoFinal').innerHTML = pontuacaoFinal
-
-    document.getElementById('jogo').classList.add("text-new-gray")
-
-    btnProx.disabled = true
-    btnSubmeter.disabled = true
-    btnTentarNovamente.disabled = false
-}
-
 </script>

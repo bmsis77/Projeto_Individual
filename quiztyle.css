@@ -3,54 +3,61 @@
     --secondary-brand-color: #0762C8;
     --success: #198754;
     --success-dark: #095c36;
-    --success-light: #9dd3ba;
-    --warning: #ffc107;
-    --warning-dark: #705400;
-    --warning-light: #fdebb3;
-    --danger: #dc3545;
-    --danger-dark: #990c19;
-    --danger-light: #f0c1c6;
-    --new-gray: #CCCCCC;
     --new-black: #212427;
     --new-white: #E8E8E8;
 }
+.container{
+  background-color: var(--sucess);
+    padding: 20px; 
+    border-radius: 8px;
+}
+
+.card {
+    display: none; 
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    width: fit-content;
+    margin: 20px auto;
+}
+
 
 body {
-        color: var(--new-black);
-        background-color: var(--new-white);
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-image: url(palmeiras.jpg);
-    }
-
-    #pontuacaoEJogo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        max-width: 600px; 
-        padding: 20px;
-        box-sizing: border-box;
-        border-radius: 8px;
-        background-color: #fff; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    #jogo {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-button {
-    font-family: monospace;
-    font-weight: bold;
+    color: var(--new-black);
+    background-color: var(--new-white);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-image: url(abel.webp);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 100% 100%;
 }
+
+#btnIniciarQuiz {
+    display: flex;
+    justify-content: center;
+    margin-top: 150px;
+    margin-right: 340px;
+    height: 30px;
+    background-color: transparent;
+    border: 2px solid var(--success-dark);
+    color: var(--success);
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: all .4s ease-out;
+}
+
+#pontuacao {
+    display: none;
+}
+
+#btnIniciarQuiz:hover {
+    background-color: var(--success);
+    color: var(--new-white);
+}
+
 
 .flex-colunar {
     display: flex;
@@ -79,19 +86,19 @@ button {
 
 .text-success-with-bg {
     color: var(--success-dark);
-    background-color: var(--success-light);
+    background-color: var(--success);
 }
 
 .text-warning-with-bg {
-    color: var(--warning-dark);
-    background-color: var(--warning-light);
+    color: var(--primary-brand-color);
+    background-color: #f8d7da;
 }
 
 .text-danger-with-bg {
-    color: var(--danger-dark);
-    background-color: var(--danger-light);
+    color: #842029;
+    background-color: #f8d7da;
 }
 
 .text-new-gray {
-    color: var(--new-gray);
+    color: var(--new-black);
 }
