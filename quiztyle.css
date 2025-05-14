@@ -95,7 +95,8 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: var(--success-dark);}
+    background-color: var(--success-dark);
+       overflow: hidden;}
 
 .card {
     background-color: var(--new-white);
