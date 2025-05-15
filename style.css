@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 * {
     margin: 0;
@@ -10,17 +11,24 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-    background-image: url(fze-afpwaaiuyyo.webp);
+    background-image: url(images/fze-afpwaaiuyyo.webp);
     background-size: 100% 100%;
     overflow: hidden;
 }
 header {
-    background-color: #0762C8;
+    background-color: #006400;
     padding: 10px 20px;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
-
+.vibra {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 0;
+    font-family: "Nosifer", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -36,7 +44,11 @@ header {
 nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 30px;
+       padding-top: 5px; /* Espaço superior */
+    padding-bottom: 5px; /* Espaço inferior */
+    display: flex;
+    align-items: center;
 }
 
 nav ul li a {
@@ -183,3 +195,30 @@ a:hover {
     margin-left: 600px;
 }
 
+#opcoes {
+    width: 40%;
+    height: 20px;
+    border-radius: 8px;
+    border: 1px solid green;
+    background-color: var(--new-white);
+    padding-left: 10px;
+    font-size: 16px;
+    color: green;
+    transition: border-color 0.3s;
+     margin-top: 13px; /* Define o espaçamento */
+}
+
+#opcoes:hover {
+    border-color: var(--secondary-brand-color);
+}
+
+#opcoes:focus {
+    outline: none;
+    border-color: var(--primary-brand-color);
+}
+
+label[for="opcoes"] {
+    color: green; /* Muda para a cor definida no :root */
+    font-size: 16px; /* Aumenta um pouco o texto */
+
+}

@@ -1,53 +1,128 @@
-/* Adicionando margin e padding para garantir que o conteúdo da página ocupe a largura total */
-body {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
     margin: 0;
     padding: 0;
-    background-image: url(torcida_13.jpg);
-    max-width: 100%;
-    height: 90vh;
-    background-repeat: no-repeat;
-    background-position:center center ;
-    background-size: cover;
+    font-family: 'Roboto', sans-serif;
 }
 
-/* Estilos para o header */
+.chamando {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    text-align: center;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+footer {
+    background-color: #006400;
+    color: white;
+    padding: 20px 0;
+    margin-top: auto;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 40px;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px;
+    border-top: 1px solid white;
+    padding-top: 10px;
+    font-size: 14px;
+}
+
+.chamando h1 {
+    color: antiquewhite;
+    margin-bottom: 55px;
+    font-family: "Roboto", sans-serif;
+}
+
+.chamando h2 {
+    color: whitesmoke;
+    margin-bottom: 55px;
+    font-family: "Roboto", sans-serif;
+}
+
+
+
+body {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+   background-image: url(images/torcida_13.jpg);
+    background-size: 100% 100%;
+       min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+main {
+    flex: 1;
+}
 header {
-    background-color: #0762C8;
+    background-color: #006400;
     padding: 10px 20px;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 0;
-    width: 100%; /* Garante que o header ocupe toda a largura da tela */
-    z-index: 1000;
 }
 
-/* Container do header, para manter a logo e o menu bem alinhados */
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%; /* Garante que o container ocupe toda a largura da tela */
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Estilo da logo */
+.vibra {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 0;
+    font-family: "Nosifer", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
 .logo {
-    height: 50px;
+    height: 70px;
 }
 
-/* Adiciona margem superior para o conteúdo não ficar escondido atrás do header fixo */
-.container {
-    margin-top: 80px; /* Aumenta a distância entre o header fixo e o conteúdo */
-}
-
-/* Estilos para o menu de navegação */
 nav ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 30px;
+    padding-top: 5px;
+    /* Espaço superior */
+    padding-bottom: 5px;
+    /* Espaço inferior */
+    display: flex;
+    align-items: center;
 }
 
-/* Estilos dos links do menu */
 nav ul li a {
     color: white;
     text-decoration: none;
@@ -55,7 +130,6 @@ nav ul li a {
     transition: color 0.3s ease;
 }
 
-/* Hover para mudar a cor do link */
 nav ul li a:hover {
     color: #ED145B;
 }
