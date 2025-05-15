@@ -51,7 +51,7 @@ hr {
 }
 
 #btnIniciarQuiz:hover {
-    background-color: var(--success);
+    background-color: green;
     color: var(--new-white);
 }
 
@@ -108,11 +108,12 @@ body {
 }
 
 .card {
-    background-color: var(--new-white);
+    color: white;
+    background-color: #0fc20f;
     padding: 40px 30px;
     border-radius: 20px;
-    box-shadow: 3px 3px 1px 0px #00000060;
-    border: 3px solid green;
+    box-shadow: 3px 3px 1px 0px white;
+    border: 3px solid transparent;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -120,6 +121,7 @@ body {
     max-width: 600px;
     width: 98%;
 }
+
 .vibra {
     color: white;
     font-size: 25px;
@@ -129,7 +131,7 @@ body {
     font-style: normal;
 }
 .p {
-    color: green;
+    color: white;
     font-size: 40px;
     margin-bottom: 0;
     /* espaço abaixo do texto */
@@ -145,7 +147,7 @@ header {
     background-color: #006400;
     padding: 10px 20px;
     color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px white;
     position: fixed;
     top: 0;
     width: 100%;

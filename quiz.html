@@ -375,13 +375,13 @@ if (numeroDaQuestaoAtual === listaDeQuestoes.length - 1) {
         let imagemResultado = "";
 
         if (porcentagemFinalDeAcertos <= 30) {
-            textoParaMensagemFinal = "Parece que você não estudou...";
+            textoParaMensagemFinal = "Temos um rival infiltrado...";
             imagemResultado = "images/triste.jpg";
         } else if (porcentagemFinalDeAcertos < 90) {
-            textoParaMensagemFinal = "Pode melhorar na próxima, hein!";
+            textoParaMensagemFinal = "Bora estudar mais parmeira!";
            imagemResultado = "images/seinao.jpg";
         } else {
-            textoParaMensagemFinal = "Parabéns, você mandou muito bem!";
+            textoParaMensagemFinal = "Palmeirense raiz, AVANTI PALESTRA!";
            imagemResultado = "images/feliz.jpg";
         }
         document.getElementById('pontuacao').style.display = "block";
