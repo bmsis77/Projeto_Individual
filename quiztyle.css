@@ -4,7 +4,9 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+     font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
 }
 
 :root {
@@ -109,10 +111,11 @@ body {
 
 .card {
     color: white;
-    background-color: #0fc20f;
+    background-color: transparent;
     padding: 40px 30px;
+    backdrop-filter: blur(10px);
     border-radius: 20px;
-    box-shadow: 3px 3px 1px 0px white;
+    box-shadow: 1px 4px 137px -32px rgba(255,255,255,0.75);
     border: 3px solid transparent;
     display: flex;
     flex-direction: column;
