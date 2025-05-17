@@ -7,20 +7,30 @@
     font-family: 'Roboto', sans-serif;
 }
 
-.chamando {
+.imagem-lateral.esquerda {
+    left: -25px;
+    /* Valor negativo para ultrapassar um pouco a borda */
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
     position: absolute;
-    width: 100%;
-    height: 300px;
-    text-align: center;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
 }
-footer {
-    background-color: #006400;
-    color: white;
-    padding: 20px 0;
-    margin-top: auto;
+
+.imagem-lateral.direita {
+    right: -25px;
+    /* Valor negativo para ultrapassar um pouco a borda */
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
 }
 
 .footer-container {
@@ -56,38 +66,86 @@ footer {
     font-size: 14px;
 }
 
-.chamando h1 {
-    color: antiquewhite;
-    margin-bottom: 55px;
-    font-family: "Roboto", sans-serif;
+header div.chamando {
+    position: absolute;
+    width: 80%;
+    height: 300px;
+    text-align: center;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 2px solid green;
 }
 
-.chamando h2 {
-    color: whitesmoke;
-    margin-bottom: 55px;
-    font-family: "Roboto", sans-serif;
+header div.chamando h1 {
+    color: green;
+    font-size: 45px;
+    font-family: "Nosifer", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
+header div.chamando h2 {
+    color: red;
+    margin-bottom: 40px;
+    font-size: 30px;
+    font-family: "Nosifer", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
 
+div.chamando a {
+    font-size: max(16px, 1.8vw);
+    color: white;
+    text-decoration: none;
+    padding: 20px 80px;
+    border-radius: 50px;
+    font-weight: 600;
+    background: green;
+    display: inline-block;
+    transition: all .4s ease-out;
+    font-family: "Poppins", sans-serif;
+}
+
+div.chamando a:hover {
+    color: green;
+    background-color: rgba(255, 255, 255, 0.445);
+}
 
 body {
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
-   background-image: url(images/torcida_13.jpg);
+    background-image: url(images/torcida_13.jpg);
     background-size: 100% 100%;
-       min-height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
+
 main {
-    flex: 1;
+    flex: 1 0 auto;
+    /* Garante que o conteúdo ocupe o espaço antes do footer */
+    min-height: 100vh;
+    /* Força o main a ocupar pelo menos a altura da tela */
 }
+
+footer {
+    background-color: #006400;
+    color: white;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.836);
+}
+
+
 header {
     background-color: #006400;
     padding: 10px 20px;
     color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.836);
 }
 
 .header-container {
