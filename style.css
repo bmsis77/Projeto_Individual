@@ -21,14 +21,7 @@ header {
     color: white;
     box-shadow: 0 2px 5px white;
 }
-.vibra {
-    color: white;
-    font-size: 25px;
-    margin-bottom: 0;
-    font-family: "Nosifer", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
+
 .header-container {
     display: flex;
     justify-content: space-between;
@@ -37,18 +30,34 @@ header {
     margin: 0 auto;
 }
 
+
+.vibra {
+    color: white;
+    font-size: 25px;
+    margin-bottom: 0;
+    font-family: "Nosifer", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-left: -40px;
+}
+
 .logo {
     height: 70px;
+    margin-left: -60px;
+    /* Valor negativo para aproximar mais da borda */
 }
 
 nav ul {
     list-style: none;
     display: flex;
     gap: 30px;
-       padding-top: 5px; /* Espaço superior */
-    padding-bottom: 5px; /* Espaço inferior */
+    padding-top: 5px;
+    /* Espaço superior */
+    padding-bottom: 5px;
+    /* Espaço inferior */
     display: flex;
     align-items: center;
+    margin-left: 5px;
 }
 
 nav ul li a {
@@ -222,3 +231,4 @@ label[for="opcoes"] {
     font-size: 16px; /* Aumenta um pouco o texto */
 
 }
+
