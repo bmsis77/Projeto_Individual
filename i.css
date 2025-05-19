@@ -204,7 +204,7 @@ section.slider {
 }
 
 .slider-content {
-    width: 400%;
+    width: 300%;
     height: auto;
     display: flex;
 }
@@ -214,7 +214,7 @@ section.slider {
 }
 
 .slide-box {
-    width: 25%;
+    width: 12.5%;
     height: auto;
     position: relative;
     text-align: center;
@@ -250,60 +250,37 @@ section.slider {
     background-color: green;
 }
 
-#radio1:checked ~ .nav-auto .nav-btn1{
+#radio1:checked ~ .nav-auto .auto-btn1 { background-color: white; }
+#radio2:checked ~ .nav-auto .auto-btn2 { background-color: white; }
+#radio3:checked ~ .nav-auto .auto-btn3 { background-color: white; }
+#radio4:checked ~ .nav-auto .auto-btn4 { background-color: white; }
+#radio5:checked ~ .nav-auto .auto-btn5 { background-color: white; }
+#radio6:checked ~ .nav-auto .auto-btn6 { background-color: white; }
+#radio7:checked ~ .nav-auto .auto-btn7 { background-color: white; }
+#radio8:checked ~ .nav-auto .auto-btn8 { background-color: white; }
 
-    background-color: white;
-}
-#radio2:checked ~ .nav-auto .nav-btn2{
 
-    background-color: white;
+#radio1:checked ~ .primeiro {
+  margin-left: 0%;
 }
-#radio3:checked ~ .nav-auto .nav-btn3{
-
-    background-color: white;
+#radio2:checked ~ .primeiro {
+  margin-left: -25%;
 }
-#radio4:checked ~ .nav-auto .nav-btn4{
-
-    background-color: white;
+#radio3:checked ~ .primeiro {
+  margin-left: -50%;
 }
-#radio5:checked ~ .nav-auto .nav-btn5{
-
-    background-color: white;
+#radio4:checked ~ .primeiro {
+  margin-left: -75%;
 }
-#radio6:checked ~ .nav-auto .nav-btn6{
-
-    background-color: white;
+#radio5:checked ~ .primeiro {
+  margin-left: -100%;
 }
-#radio7:checked ~ .nav-auto .nav-btn7{
-    background-color: white;
+#radio6:checked ~ .primeiro {
+  margin-left: -125%;
 }
-#radio8:checked ~ .nav-auto .nav-btn8{
-
-    background-color: white;
+#radio7:checked ~ .primeiro {
+  margin-left: -150%;
 }
-
-#radio1:checked ~ .primeiro{
-    margin-left: 0%;
-}
-
-#radio2:checked ~ .primeiro{
-    margin-left: -25%;
-}
-#radio3:checked ~ .primeiro{
-    margin-left: -50%;
-}
-#radio4:checked ~ .primeiro{
-    margin-left: -50%;
-}
-#radio5:checked ~ .primeiro{
-    margin-left: -50%;
-}
-#radio6:checked ~ .primeiro{
-    margin-left: -50%;
-}
-#radio7:checked ~ .primeiro{
-    margin-left: -50%;
-}
-#radio8:checked ~ .primeiro{
-    margin-left: -50%;
+#radio8:checked ~ .primeiro {
+  margin-left: -175%;
 }

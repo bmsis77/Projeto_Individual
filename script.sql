@@ -6,16 +6,20 @@ CREATE TABLE Usuario (
     email VARCHAR(45),
     telefone CHAR(11),
     senha VARCHAR(45),
-    idolo VARCHAR(45)
+    jogador VARCHAR(45)
 );
 CREATE TABLE Quiz (
     idQuiz INT PRIMARY KEY AUTO_INCREMENT,
-    pontuacao CHAR(15)
+    nome varchar(45),
+    pergunta varchar(255),
+    respCorreta varchar(45)
 );
 CREATE TABLE Usuario_Quiz (
-    idUsuario_Quiz INT PRIMARY KEY AUTO_INCREMENT,
     fk_idQuiz INT,
     fk_idUsuario INT,
+    pontuacao char(15),
+    respUsuario varchar(45),
+    constraint chave_composta primary key (fk_idQuiz, fk_idUsuario),
     CONSTRAINT fk_Quiz FOREIGN KEY (fk_idQuiz) REFERENCES Quiz(idQuiz),
     CONSTRAINT fk_Usuario FOREIGN KEY (fk_idUsuario) REFERENCES Usuario(idUsuario)
 );
