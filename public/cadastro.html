@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home/CoraçãoVerdeBranco</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="nav">
+        <div class="logo">
+            Torcida Que Canta e Vibra
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="container">
+        <div class="card2">
+            <h1>Cadastro</h1>
+            <div class="formulario">
+                <div class="coluna">
+                    <div class="label-float">
+                        <input type="text" id="nome" placeholder="">
+                        <label for="nome">Nome</label>
+                    </div>
+                    <div class="label-float">
+                        <input type="tel" id="telefone" placeholder="">
+                        <label for="telefone">Telefone</label>
+                    </div>
+                    <div class="label-float">
+                        <input type="password" id="senha" placeholder="">
+                        <label for="senha">Senha</label>
+                    </div>
+                </div>
+
+                <div class="coluna">
+                    <div class="label-float">
+                        <input type="email" id="email" placeholder="">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="label-float">
+                        <input type="password" id="confirmarSenha" placeholder="">
+                        <label for="confirmarSenha">Confirmar Senha</label>
+                    </div>
+                    <div class="coluna">
+                        <div>
+                            <label for="opcoes">Jogador Favorito</label>
+                            <select name="opcoes" id="opcoes">
+                                <option value="0">Escolha</option>
+                                <option value="Weverton">Weverton</option>
+                                <option value="Murilo">Murilo</option>
+                                <option value="G.Gómez">G.Gómez</option>
+                                <option value="Marcos R.">M.Rocha</option>
+                                <option value="Piquerez">Piquerez</option>
+                                <option value="R.Rios">R.Rios</option>
+                                <option value="F.Torres">F.Torres</option>
+                                <option value="F.Lópes">F.Lópes</option>
+                                <option value="R.Veiga">R.Veiga</option>
+                                <option value="V.Roque">V.Roque</option>
+                                <option value="Estevão">Estevão</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="justify-center">
+                <button onclick="cadastro()">Cadastrar</button>
+            </div>
+            <div class="justify-center">
+                <hr>
+            </div>
+            <p>Já tem uma conta?<a href="login.html"> Entrar</a></p>
+        </div>
+    </div>
+</body>
+
+</html>
+  <script>
+    function cadastro() {
+        var nome = document.getElementById("nome").value.trim();
+        var telefone = document.getElementById("telefone").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var senha = document.getElementById("senha").value;
+        var confirmarSenha = document.getElementById("confirmarSenha").value;
+        var jogadorFavorito = document.getElementById("opcoes").value;
+
+        if (!nome || !telefone || !email || !senha || !confirmarSenha) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Digite um email válido.");
+            return;
+        }
+
+        if (jogadorFavorito === "0") {
+            alert("Por favor, selecione um jogador favorito.");
+            return;
+        }
+
+        var telefoneNumerico = telefone.replace(/\D/g, '');
+        if (telefoneNumerico.length < 8) {
+            alert("Digite um telefone válido com pelo menos 8 números.");
+            return;
+        }
+
+        if (senha !== confirmarSenha) {
+            alert("As senhas não coincidem.");
+            return;
+        }
+
+            fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nome,
+        emailServer: email,
+        senhaServer: senha,
+        telefoneServer: telefone,
+        jogadorFavoritoServer: jogadorFavorito
+        
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          
+
+          alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...")
+          window.location.href = "public/login.html";
+
+          
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
+    };
+</script>
