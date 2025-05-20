@@ -1,210 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Roboto:wght@100..900&display=swap');
 
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
-
-.imagem-lateral.esquerda {
-    left: -25px;
-    /* Valor negativo para ultrapassar um pouco a borda */
-    width: 200px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.imagem-lateral.direita {
-    right: -25px;
-    /* Valor negativo para ultrapassar um pouco a borda */
-    width: 200px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 1;
-}
-
-.footer-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 40px;
-}
-
-.footer-section h3 {
-    margin-bottom: 10px;
-    color: white;
-}
-
-.footer-section a {
-    color: white;
-    text-decoration: none;
-    margin-right: 5px;
-    transition: color 0.3s;
-}
-
-.footer-section a:hover {
-    color: white;
-}
-
-.footer-bottom {
-    text-align: center;
-    margin-top: 20px;
-    border-top: 1px solid white;
-    padding-top: 10px;
-    font-size: 14px;
-}
-
-header div.chamando {
-    position: absolute;
-    width: 80%;
-    height: 300px;
-    text-align: center;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 2px solid green;
-}
-
-header div.chamando h1 {
-    color: green;
-    font-size: 45px;
-    font-family: "Nosifer", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-header div.chamando h2 {
-    color: red;
-    margin-bottom: 40px;
-    font-size: 30px;
-    font-family: "Nosifer", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-div.chamando a {
-    font-size: max(16px, 1.8vw);
-    color: white;
-    text-decoration: none;
-    padding: 20px 80px;
-    border-radius: 50px;
-    font-weight: 600;
-    background: green;
-    display: inline-block;
-    transition: all .4s ease-out;
-    font-family: "Poppins", sans-serif;
-}
-
-div.chamando a:hover {
-    color: green;
-    background-color: rgba(255, 255, 255, 0.445);
-}
-
-body {
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-image: url(images/torcida_13.jpg);
-    background-size: 100% 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-main {
-    flex: 1 0 auto;
-    /* Garante que o conteúdo ocupe o espaço antes do footer */
-    min-height: 100vh;
-    /* Força o main a ocupar pelo menos a altura da tela */
-}
-
-footer {
-    background-color: #006400;
-    color: white;
-    padding: 10px 20px;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.836);
-}
-
-
-header {
-    background-color: #006400;
-    padding: 10px 20px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.836);
-}
-
-.header-container {
+.nav {
+    width: 1100px;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 9;
 }
 
-.vibra {
-    color: white;
-    font-size: 25px;
-    margin-bottom: 0;
-    font-family: "Nosifer", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    margin-left: -40px;
+.nav .logo {
+    font-size: 30px;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1.5px;
+ font-family: "Nosifer", sans-serif;
+ margin-left: -75px;
+
 }
 
-.logo {
-    height: 70px;
-    margin-left: -60px;
-    /* Valor negativo para aproximar mais da borda */
+.nav .menu {
+    width: 45%;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    padding-top: 5px;
-    /* Espaço superior */
-    padding-bottom: 5px;
-    /* Espaço inferior */
+.nav .menu ul {
     display: flex;
     align-items: center;
-    margin-left: 5px;
+    justify-content: space-between;
 }
 
-nav ul li a {
+.nav .menu ul li {
+    list-style: none;
+}
+
+.nav .menu ul li a {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     color: white;
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
 }
 
-nav ul li a:hover {
-    color: #ED145B;
+.nav .menu .active {
+    color: red;
+}
+
+body {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #006400;
 }
 
 section.slider {
     margin: 0 auto;
     width: 100%;
-    padding: 0;
+    padding: 10;
     overflow: hidden;
 }
 
 .slider-content {
-    width: 300%;
+    width: 400%;
     height: auto;
     display: flex;
 }
@@ -222,13 +93,13 @@ section.slider {
 }
 
 .slide-box img {
-    width: 100%;
+    width: 80%;
 }
 
 .nav-manual, .nav-auto {
     position: absolute;
     width: 100%;
-    margin-top: 35%;
+    margin-top: 42%;
     display: flex;
     justify-content: center;
 }
@@ -247,19 +118,13 @@ section.slider {
 }
 
 .nav-manual .manual-btn:hover{
-    background-color: green;
+    background-color: rgb(0, 255, 0);
 }
 
-#radio1:checked ~ .nav-auto .auto-btn1 { background-color: white; }
-#radio2:checked ~ .nav-auto .auto-btn2 { background-color: white; }
-#radio3:checked ~ .nav-auto .auto-btn3 { background-color: white; }
-#radio4:checked ~ .nav-auto .auto-btn4 { background-color: white; }
-#radio5:checked ~ .nav-auto .auto-btn5 { background-color: white; }
-#radio6:checked ~ .nav-auto .auto-btn6 { background-color: white; }
-#radio7:checked ~ .nav-auto .auto-btn7 { background-color: white; }
-#radio8:checked ~ .nav-auto .auto-btn8 { background-color: white; }
-
-
+#radio1:checked ~ .nav-auto .auto-btn1 { background-color: rgb(0, 255, 0); }
+#radio2:checked ~ .nav-auto .auto-btn2 { background-color: rgb(0, 255, 0); }
+#radio3:checked ~ .nav-auto .auto-btn3 { background-color: rgb(0, 255, 0); }
+#radio4:checked ~ .nav-auto .auto-btn4 { background-color: rgb(0, 255, 0); }
 #radio1:checked ~ .primeiro {
   margin-left: 0%;
 }
@@ -272,15 +137,10 @@ section.slider {
 #radio4:checked ~ .primeiro {
   margin-left: -75%;
 }
-#radio5:checked ~ .primeiro {
-  margin-left: -100%;
-}
-#radio6:checked ~ .primeiro {
-  margin-left: -125%;
-}
-#radio7:checked ~ .primeiro {
-  margin-left: -150%;
-}
-#radio8:checked ~ .primeiro {
-  margin-left: -175%;
+
+.container-slider {
+background-color: rgba(255, 255, 255, 0.342);
+border-color: #006400;
+height: auto;
+border-radius: 5%;
 }

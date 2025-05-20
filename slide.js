@@ -10,7 +10,7 @@ setInterval(() => (
 function proximaImg() {
     cont++
 
-    if (cont > 8) {
+    if (cont > 4) {
         cont = 1;
     }
 

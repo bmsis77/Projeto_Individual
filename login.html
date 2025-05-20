@@ -9,21 +9,20 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <img src="images/palmeiras-removebg-preview.png" alt="Logo do Site" class="logo">
-            <div class="vibra">Torcida Que Canta e Vibra</div>
-            <nav>
-                <ul>
-                    <div class="audio"><audio src="WhatsApp Audio 2025-05-10 at 01.05.48.mpeg" controls></audio></div>
-                   <li><a href="index.html">Home</a></li>
-                    <li><a href="sobre.html">Sobre</a></li>
-                    <li><a href="quiz.html">Quiz</a></li>
-                    <li><a href="login.html">Login</a></li>
-                </ul>
-            </nav>
+    <div class="nav">
+        <div class="logo">
+           Torcida Que Canta e Vibra
         </div>
-    </header>
+        <div class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            </ul>
+
+        </div>
+    </div>
     <div class="container">
         <div class="card">
             <h1>Entrar
@@ -37,7 +36,7 @@
                 <label for="senha">Senha</label>
             </div>
             <div class="justify-center">
-                <button>Entrar</button>
+                <button onclick="entrar()">Entrar</button>
             </div>
             <div class="justify-center">
                 <hr>
@@ -48,3 +47,40 @@
 </body>
 
 </html>
+<script>
+   function entrar() {
+
+        var email = document.getElementById("email").value.trim();
+        var senha = document.getElementById("senha").value;
+
+        if (!email || !senha) {
+            alert("Por favor, preencha todos os campos.");
+            return;
+        }
+
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Digite um email válido.");
+            return;
+        }
+
+        alert("Login realizado com sucesso!");
+    };
+</script>
+
+<!-- <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Sobre</h3>
+                <p>Bryan Machado da Costa e Silva,<br>Aluno da São Paulo Tech School,<br>1° Semestre de Sistemas de Informação</p>
+            </div>
+            <div class="footer-section">
+                <h3>Contato</h3>
+                <p>Email: bryan.silva@sptech.school</p>
+                <p>Telefone: (11) 98865-3867</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            (Fotos: picspalestra, seeklogo.com, portalmorada.com, Chumbo Gordo, Divulgação/Palmeiras, pngegg, Staff Images / CONMEBOL, WANDERSON OLIVEIRA/DIA ESPORTIVO/ESTADÃO CONTEÚDO, SERGIO LIMA/AFP)
+        </div>
+    </footer>
