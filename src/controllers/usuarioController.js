@@ -68,8 +68,8 @@ function cadastrar(req, res) {
         res.status(400).send("Sua senha está undefined!");
     } else if (telefone == undefined) {
         res.status(400).send("Seu telefone está undefined!");
-    } else if(jogadorFavorito == undefined){
-res.status(400).send("Seu jogador favorito está undefined!");
+    } else if (jogadorFavorito == undefined) {
+        res.status(400).send("Seu jogador favorito está undefined!");
     } else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js

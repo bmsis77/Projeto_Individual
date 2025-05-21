@@ -6,7 +6,7 @@ CREATE TABLE Usuario (
     email VARCHAR(45),
     telefone CHAR(11),
     senha VARCHAR(45),
-    jogador VARCHAR(45)
+    jogadorFavorito VARCHAR(45)
 );
 CREATE TABLE Quiz (
     idQuiz INT PRIMARY KEY AUTO_INCREMENT,
