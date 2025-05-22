@@ -17,7 +17,6 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="quiz.html">Quiz</a></li>
                 <li><a href="login.html" class="active">Login</a></li>
             </ul>
 
@@ -64,6 +63,34 @@
             return;
         }
 
-        alert("Login realizado com sucesso!");
+        fetch("/usuarios/autenticar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        emailServer: email,
+        senhaServer: senha,
+      }),
+    })
+      .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          
+
+          alert("Login realizado com sucesso! Redirecionando para o quiz");
+        window.location.href = "quiz.html";
+
+          
+        } else {
+          throw "Houve um erro ao tentar realizar o login!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+      });
     };
 </script>
