@@ -1,6 +1,6 @@
-CREATE DATABASE Coracao_Verde_Branco;
+CREATE DATABASE if not exists Coracao_Verde_Branco;
 USE Coracao_Verde_Branco;
-CREATE TABLE Usuario (
+CREATE TABLE if not exists Usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45),
     email VARCHAR(45),
@@ -8,13 +8,13 @@ CREATE TABLE Usuario (
     senha VARCHAR(45),
     jogadorFavorito VARCHAR(45)
 );
-CREATE TABLE Quiz (
+CREATE TABLE if not exists Quiz (
     idQuiz INT PRIMARY KEY AUTO_INCREMENT,
     nome varchar(45),
     pergunta varchar(255),
     respCorreta varchar(45)
 );
-CREATE TABLE Usuario_Quiz (
+CREATE TABLE if not exists Usuario_Quiz (
     fk_idQuiz INT,
     fk_idUsuario INT,
     pontuacao char(15),
