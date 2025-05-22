@@ -21,7 +21,7 @@ body {
     color: inherit;
     text-decoration: none;
     display: block;
-   
+
 }
 
 .nav {
@@ -112,4 +112,88 @@ body {
     border-radius: 10px;
     border: none;
     font-family: 'Roboto', sans-serif;
+}
+
+.blog {
+    padding: 40px;
+    background-color: #f9f9f9;
+}
+
+.blog-post {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    margin-bottom: 40px;
+    background: rgb(255, 255, 255);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post img {
+    width: 300px;
+    height: auto;
+    border-radius: 12px;
+}
+
+.blog-text {
+    flex: 1;
+}
+
+.blog-text h2 {
+    margin: 0;
+    color: #ff3300;
+    /* sua cor secundaria */
+}
+
+.blog-text p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #08c431;
+    /* seu "new-black" */
+}
+
+.blog {
+    background-color: rgb(0, 44, 0);
+}
+
+footer {
+    background-color: #ffffff; /* Azul Palmeiras */
+    color: #E8E8E8; /* Branco personalizado */
+    padding: 40px 20px 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.footer-section {
+    flex: 1 1 300px;
+}
+
+.footer-section h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ED145B; /* Rosa da paleta */
+}
+
+.footer-section p {
+    margin: 5px 0;
+    line-height: 1.5;
+    color: #054903;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #054903;
+    border-top: 1px solid #054903;
+    padding-top: 15px;
 }
