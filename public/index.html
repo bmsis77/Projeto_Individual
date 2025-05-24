@@ -63,7 +63,7 @@
         <div class="blog-post">
             <img src="images/manchav.jpg" alt="Imagem do post 2">
             <div class="blog-text">
-                <h2>Mancha Alvi-Verde</h2>
+                <h2>Mancha Alvi-Verde (Futebol e Samba)</h2>
                 <p>
                     A Mancha Verde é muito mais do que uma torcida: é tradição, cultura e paixão em movimento. Fundada
                     em 11 de janeiro de 1983, surgiu para apoiar incondicionalmente a Sociedade Esportiva Palmeiras,
@@ -131,3 +131,29 @@
         </div>
     </footer>
 </html>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const usuarioLogado = window.localStorage.getItem("usuarioLogado");
+
+    const menu = document.querySelector(".menu ul");
+
+    if (usuarioLogado === "true") {
+      menu.innerHTML = `
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="dashboard.html">Dash</a></li>
+        <li><a href="#" onclick="logout()">Sair</a></li>
+      `;
+    } else {
+      menu.innerHTML = `
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="login.html">Login</a></li>
+      `;
+    }
+  });
+
+  function logout() {
+    localStorage.removeItem("usuarioLogado");
+    window.location.href = "index.html";
+  }
+</script>

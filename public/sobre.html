@@ -184,3 +184,28 @@
 </body>
 
 </html>
+<script> window.addEventListener("DOMContentLoaded", () => {
+    const usuarioLogado = window.localStorage.getItem("usuarioLogado");
+
+    const menu = document.querySelector(".menu ul");
+
+    if (usuarioLogado === "true") {
+      menu.innerHTML = `
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="dashboard.html">Dash</a></li>
+        <li><a href="#" onclick="logout()">Sair</a></li>
+      `;
+    } else {
+      menu.innerHTML = `
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="login.html">Login</a></li>
+      `;
+    }
+  });
+
+  function logout() {
+    localStorage.removeItem("usuarioLogado");
+    window.location.href = "index.html";
+  }
+  </script>

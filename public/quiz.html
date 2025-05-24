@@ -5,14 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <title>CoraçãoVerdeBranco/Quiz</title>
     <link rel="stylesheet" href="quiztyle.css">
 </head>
 
 <body onload="onloadEsconder()">
-     <div class="nav">
+    <div class="nav">
         <div class="logo">
             Torcida Que Canta e Vibra
         </div>
@@ -85,6 +87,7 @@
 </html>
 
 <script>
+    var respostasUsuario = [];
     const listaDeQuestoes = [
 
         {
@@ -244,6 +247,12 @@
             return;
         }
 
+        // Agora sim, adiciona a resposta ao array
+        respostasUsuario.push({
+            pergunta: listaDeQuestoes[numeroDaQuestaoAtual].pergunta,
+            respostaSelecionada: alternativaSelecionada
+        });
+
         // Recupera a alternativa correta da questão atual
         const alternativaCorreta = listaDeQuestoes[numeroDaQuestaoAtual].alternativaCorreta;
 
@@ -264,20 +273,11 @@
         }
 
         // Habilita o botão para avançar e desabilita o de submeter
+        document.getElementById('btnProx').disabled = false;
         document.getElementById('btnSubmeter').disabled = true;
 
-if (numeroDaQuestaoAtual === listaDeQuestoes.length - 1) {
-    finalizarJogo();
-    // Esconde o botão de avançar após a última questão
-    document.getElementById('btnProx').style.display = "none";
-} else {
-    document.getElementById('btnProx').disabled = false;
-}
-
-
-
-        // Desabilita as alternativas para não mudar após submeter
-        alternativas.forEach((alt) => alt.disabled = true);
+        // Desabilita as opções após submissão
+        alternativas.forEach(alt => alt.disabled = true);
     }
 
     function avancar() {
@@ -381,13 +381,13 @@ if (numeroDaQuestaoAtual === listaDeQuestoes.length - 1) {
             imagemResultado = "images/triste.jpg";
         } else if (porcentagemFinalDeAcertos < 90) {
             textoParaMensagemFinal = "Bora estudar mais parmeira!";
-           imagemResultado = "images/seinao.jpg";
+            imagemResultado = "images/seinao.jpg";
         } else {
             textoParaMensagemFinal = "Palmeirense raiz, AVANTI PALESTRA!";
-           imagemResultado = "images/feliz.jpg";
+            imagemResultado = "images/feliz.jpg";
         }
-        document.getElementById('pontuacao').style.display = "block";
 
+        document.getElementById('pontuacao').style.display = "block";
         document.getElementById('msgFinal').innerText = textoParaMensagemFinal;
         document.getElementById('spanCertas').innerText = certas;
         document.getElementById('spanErradas').innerText = erradas;
@@ -396,17 +396,69 @@ if (numeroDaQuestaoAtual === listaDeQuestoes.length - 1) {
         imgElemento.src = imagemResultado;
         imgElemento.alt = "Resultado final";
         imgElemento.style.width = '300px';
-      const btnTentarNovamente = document.getElementById('btnTentarNovamente');
-btnTentarNovamente.insertAdjacentElement('afterend', imgElemento);
+
+        const btnTentarNovamente = document.getElementById('btnTentarNovamente');
+        btnTentarNovamente.insertAdjacentElement('afterend', imgElemento);
+
         document.getElementById('jogo').style.display = "none";
-document.getElementById('btnTentarNovamente').style.display = "inline-block";
+        document.getElementById('btnTentarNovamente').style.display = "inline-block";
+
+        // ENVIO DA PONTUAÇÃO PARA O BACKEND
+        const fk_idUsuario = localStorage.getItem("fk_idUsuario");
+
+        fetch("/usuarios/quizelar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                fk_idUsuarioServer: idUsuario,
+                pontuacaoServer: certas,
+                respostasUsuarioServer: respostasUsuario // array completo de respostas
+            }),
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("Quiz enviado com sucesso!");
+                } else {
+                    alert("Erro ao enviar o quiz.");
+                }
+            })
+            .catch(err => console.error("Erro:", err));
 
     }
 
- function tentarNovamente() {
-    location.reload();
-}
+    function tentarNovamente() {
+        location.reload();
+    }
 
+    window.addEventListener("DOMContentLoaded", () => {
+        const usuarioLogado = window.localStorage.getItem("usuarioLogado");
 
+        const menu = document.querySelector(".menu ul");
 
+        if (usuarioLogado === "true") {
+            menu.innerHTML = `
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="dashboard.html">Dash</a></li>
+        <li><a href="#" onclick="logout()">Sair</a></li>
+      `;
+        } else {
+            menu.innerHTML = `
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="login.html">Login</a></li>
+      `;
+        }
+    });
+
+    function logout() {
+        localStorage.removeItem("usuarioLogado");
+        window.location.href = "index.html";
+    }
+
+    if (localStorage.getItem("usuarioLogado") !== "true") {
+        alert("Você precisa estar logado para acessar esta página.");
+        window.location.href = "login.html";
+    }
 </script>

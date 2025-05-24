@@ -21,7 +21,6 @@ function autenticar(req, res) {
                         nome: resultadoAutenticar[0].nome,
                         email: resultadoAutenticar[0].email,
                         jogadorFavorito: resultadoAutenticar[0].JogadorFavorito
-                        // Remova senha e telefone da resposta, se não for necessário ou seguro mostrar
                     });
                 } else if (resultadoAutenticar.length == 0) {
                     res.status(403).send("Email e/ou senha inválido(s)");
@@ -56,8 +55,6 @@ function cadastrar(req, res) {
     } else if (jogadorFavorito == undefined) {
         res.status(400).send("Seu jogador favorito está undefined!");
     } else {
-
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
         usuarioModel.cadastrar(nome, email, senha, telefone, jogadorFavorito)
             .then(
                 function (resultado) {
@@ -75,8 +72,25 @@ function cadastrar(req, res) {
             );
     }
 }
+function quizelar(req, res) {
+    var fk_idUsuario = req.body.fk_idUsuarioServer;
+    var pontuacao = req.body.pontuacaoServer;
+    var respostas = req.body.respostasUsuarioServer; 
 
+    if (!respostas || !Array.isArray(respostas)) {
+        res.status(400).send("Respostas inválidas.");
+        return;
+    }
+
+    usuarioModel.quizelar(fk_idUsuario, pontuacao, respostas)
+        .then(resultado => res.json(resultado))
+        .catch(erro => {
+            console.log("Erro ao salvar quiz:", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    quizelar
 }
