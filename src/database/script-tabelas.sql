@@ -1,6 +1,7 @@
-CREATE DATABASE if not exists Coracao_Verde_Branco;
+CREATE DATABASE IF NOT EXISTS Coracao_Verde_Branco;
 USE Coracao_Verde_Branco;
-CREATE TABLE if not exists Usuario (
+
+CREATE TABLE IF NOT EXISTS Usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45),
     email VARCHAR(45),
@@ -8,19 +9,18 @@ CREATE TABLE if not exists Usuario (
     senha VARCHAR(45),
     jogadorFavorito VARCHAR(45)
 );
-CREATE TABLE if not exists Quiz (
-    idPergunta int primary key,
-    pergunta varchar(255),
-    respCorreta varchar(45)
+CREATE TABLE IF NOT EXISTS Quiz (
+    idPergunta INT PRIMARY KEY,
+    pergunta VARCHAR(255),
+    respCorreta VARCHAR(45)
 );
-CREATE TABLE Usuario_Quiz (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS Usuario_Quiz (
+    fk_idPergunta INT,
     fk_idUsuario INT,
-    pergunta TEXT,
-    respUsuario VARCHAR(100),
     pontuacao INT,
-    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (fk_idUsuario) REFERENCES Usuario(idUsuario)
+    PRIMARY KEY (fk_idUsuario, fk_idPergunta),
+    FOREIGN KEY (fk_idUsuario) REFERENCES Usuario(idUsuario),
+    FOREIGN KEY (fk_idPergunta) REFERENCES Quiz(idPergunta)
 );
 
 INSERT INTO Quiz (idPergunta, pergunta, respCorreta) VALUES
@@ -39,3 +39,7 @@ INSERT INTO Quiz (idPergunta, pergunta, respCorreta) VALUES
 (13, 'Qual foi a maior goleada da história do Palmeiras sobre o maior rival?', 'alternativaC'),
 (14, 'Qual foi o rival europeu que o verdão enfrentou no histórico título do Torneio Internacional de Clubes 1951', 'alternativaB'),
 (15, 'Quais foram os jogadores que fizeram os gols na histórica vitória de 4x0 contra o seu maior rival, Crédito Para Negativado!', 'alternativaB');
+
+select * from Usuario;
+select * from Quiz;
+select * from Usuario_Quiz;

@@ -159,7 +159,7 @@ body {
 }
 
 footer {
-    background-color: #ffffff; /* Azul Palmeiras */
+    background-color: #054903;
     color: #E8E8E8; /* Branco personalizado */
     padding: 40px 20px 20px;
     font-family: 'Arial', sans-serif;
@@ -181,20 +181,20 @@ footer {
 .footer-section h3 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #ED145B; /* Rosa da paleta */
+    color: #ff0000; 
 }
 
 .footer-section p {
     margin: 5px 0;
     line-height: 1.5;
-    color: #054903;
+    color: #ffffff;
 }
 
 .footer-bottom {
     text-align: center;
     margin-top: 30px;
     font-size: 12px;
-    color: #054903;
-    border-top: 1px solid #054903;
+    color: #ffffff;
+    border-top: 1px solid #ff0000;
     padding-top: 15px;
 }

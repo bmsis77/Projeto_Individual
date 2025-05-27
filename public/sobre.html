@@ -115,7 +115,7 @@
             <div class="blog-text">
                 <h2>Torcida que Canta e Vibra</h2>
                 <p>
-                    A torcida do Palmeiras é uma das mais apaixonadas e fiéis do Brasil. Conhecida por seu amor
+                    A torcida do Palmeiras é uma das maiores e mais apaixonadas do Brasil. Conhecida por seu amor
                     incondicional, está presente em todos os estádios, empurrando o time com gritos de guerra, bandeiras
                     e emoção a cada lance.
 
@@ -132,29 +132,14 @@
         </div>
 
         <div class="blog-post">
-            <img src="images/logari.png" alt="Imagem do post 2">
+            <img src="images/Joelmir-Beting.png" alt="Imagem do post 2">
             <div class="blog-text">
-                <h2>Hino da Sociedade Esportiva Palmeiras</h2>
+                <h2>Joelmir Beting</h2>
                 <p>
 
 
-                    Quando surge o Alviverde imponente
-                    , No gramado em que a luta o aguarda
-                    , Sabe bem o que vem pela frente
-                    , Que a dureza do prélio não tarda
-
-                    , E o Palmeiras no ardor da partida
-                    , Transformando a lealdade em padrão
-                    , Sabe sempre levar de vencida
-                    , E mostrar que de fato é campeão
-
-                    , Defesa que ninguém passa
-                    , Linha atacante de raça
-                    , Torcida que canta e vibra (2x)
-
-                    , Por nosso Alviverde inteiro
-                    , Que sabe ser brasileiro
-                    , Ostentando a sua fibra.
+                    "Explicar a emoção de ser palmeirense, a um palmeirense, é totalmente desnecessário. E a quem não é
+                    palmeirense... É simplesmente impossível!"
 
                 </p>
             </div>
@@ -185,27 +170,27 @@
 
 </html>
 <script> window.addEventListener("DOMContentLoaded", () => {
-    const usuarioLogado = window.localStorage.getItem("usuarioLogado");
+        const usuarioLogado = window.localStorage.getItem("usuarioLogado");
 
-    const menu = document.querySelector(".menu ul");
+        const menu = document.querySelector(".menu ul");
 
-    if (usuarioLogado === "true") {
-      menu.innerHTML = `
+        if (usuarioLogado === "true") {
+            menu.innerHTML = `
         <li><a href="quiz.html">Quiz</a></li>
         <li><a href="dashboard.html">Dash</a></li>
         <li><a href="#" onclick="logout()">Sair</a></li>
       `;
-    } else {
-      menu.innerHTML = `
+        } else {
+            menu.innerHTML = `
         <li><a href="index.html">Home</a></li>
         <li><a href="sobre.html">Sobre</a></li>
         <li><a href="login.html">Login</a></li>
       `;
-    }
-  });
+        }
+    });
 
-  function logout() {
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "index.html";
-  }
-  </script>
+    function logout() {
+        localStorage.removeItem("usuarioLogado");
+        window.location.href = "index.html";
+    }
+</script>

@@ -253,6 +253,7 @@
             respostaSelecionada: alternativaSelecionada
         });
 
+
         // Recupera a alternativa correta da questão atual
         const alternativaCorreta = listaDeQuestoes[numeroDaQuestaoAtual].alternativaCorreta;
 
@@ -412,9 +413,10 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                fk_idUsuarioServer: idUsuario,
+                fk_idUsuarioServer: fk_idUsuario,
                 pontuacaoServer: certas,
-                respostasUsuarioServer: respostasUsuario // array completo de respostas
+                respUsuarioServer: respostasUsuario
+
             }),
         })
             .then(res => {
