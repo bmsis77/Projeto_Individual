@@ -1,6 +1,5 @@
 CREATE DATABASE IF NOT EXISTS Coracao_Verde_Branco;
 USE Coracao_Verde_Branco;
-
 CREATE TABLE IF NOT EXISTS Usuario (
     idUsuario INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(45),
@@ -15,10 +14,12 @@ CREATE TABLE IF NOT EXISTS Quiz (
     respCorreta VARCHAR(45)
 );
 CREATE TABLE IF NOT EXISTS Usuario_Quiz (
-    fk_idPergunta INT,
-    fk_idUsuario INT,
-    pontuacao INT,
-    PRIMARY KEY (fk_idUsuario, fk_idPergunta),
+    idRegistroQuiz INT PRIMARY KEY AUTO_INCREMENT,
+    fk_idUsuario INT,                          
+    fk_idPergunta INT,              
+    respostaSelecionada VARCHAR(45),      
+    pontuacaoDaTentativa INT,            
+    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (fk_idUsuario) REFERENCES Usuario(idUsuario),
     FOREIGN KEY (fk_idPergunta) REFERENCES Quiz(idPergunta)
 );
@@ -40,6 +41,6 @@ INSERT INTO Quiz (idPergunta, pergunta, respCorreta) VALUES
 (14, 'Qual foi o rival europeu que o verdão enfrentou no histórico título do Torneio Internacional de Clubes 1951', 'alternativaB'),
 (15, 'Quais foram os jogadores que fizeram os gols na histórica vitória de 4x0 contra o seu maior rival, Crédito Para Negativado!', 'alternativaB');
 
-select * from Usuario;
-select * from Quiz;
-select * from Usuario_Quiz;
+SELECT * FROM Usuario;
+SELECT * FROM Quiz;
+SELECT * FROM Usuario_Quiz;

@@ -2,118 +2,134 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CoraçãoVerdeBranco/Login</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoraçãoVerdeBranco/Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="nav">
-    <div class="logo">
-      Torcida Que Canta e Vibra
+    <div class="nav">
+        <div class="logo">
+            Torcida Que Canta e Vibra
+        </div>
+        <div class="menu">
+            <ul>
+                </ul>
+        </div>
     </div>
-    <div class="menu">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="login.html" class="active">Login</a></li>
-      </ul>
-
+    <div class="container">
+        <div class="card">
+            <h1>Entrar</h1>
+            <div class="label-float">
+                <input type="text" id="email" placeholder="">
+                <label for="email">Email</label>
+            </div>
+            <div class="label-float">
+                <input type="password" id="senha" placeholder="">
+                <label for="senha">Senha</label>
+            </div>
+            <div class="justify-center">
+                <button onclick="entrar()">Entrar</button>
+            </div>
+            <div class="justify-center">
+                <hr>
+            </div>
+            <p>Não tem uma conta?<a href="cadastro.html"> Cadastre-se</a></p>
+        </div>
     </div>
-  </div>
-  <div class="container">
-    <div class="card">
-      <h1>Entrar
-      </h1>
-      <div class="label-float">
-        <input type="text" id="email" placeholder="">
-        <label for="email">Email</label>
-      </div>
-      <div class="label-float">
-        <input type="password" id="senha" placeholder="">
-        <label for="senha">Senha</label>
-      </div>
-      <div class="justify-center">
-        <button onclick="entrar()">Entrar</button>
-      </div>
-      <div class="justify-center">
-        <hr>
-      </div>
-      <p>Não tem uma conta?<a href="cadastro.html"> Cadastre-se</a></p>
-    </div>
-  </div>
 </body>
 
 </html>
 <script>
-  function entrar() {
+    // --- FUNÇÃO DE LOGIN ---
+    function entrar() {
+        var email = document.getElementById("email").value.trim();
+        var senha = document.getElementById("senha").value;
 
-    var email = document.getElementById("email").value.trim();
-    var senha = document.getElementById("senha").value;
-
-    if (!email || !senha) {
-      alert("Por favor, preencha todos os campos.");
-      return;
-    }
-
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      alert("Digite um email válido.");
-      return;
-    }
-
-    fetch("/usuarios/autenticar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        emailServer: email,
-        senhaServer: senha,
-      }),
-    })
-      .then(function (resposta) {
-        if (resposta.ok) {
-          return resposta.json().then((dados) => {
-            alert("Login realizado com sucesso! Redirecionando para o quiz");
-           localStorage.setItem("fk_idUsuario", dados.id);
-            window.localStorage.setItem("usuarioLogado", "true");
-            window.location.href = "quiz.html";
-          });
-        } else {
-          return resposta.text().then((mensagem) => {
-            alert(mensagem);
-          });
+        if (!email || !senha) {
+            alert("Por favor, preencha todos os campos.");
+            return;
         }
-      })
-      .catch(function (erro) {
-        console.log(`#ERRO: ${erro}`);
-        alert("Erro ao tentar fazer login. Tente novamente mais tarde.");
-      });
-  }
-  window.addEventListener("DOMContentLoaded", () => {
-    const usuarioLogado = window.localStorage.getItem("usuarioLogado");
 
-    const menu = document.querySelector(".menu ul");
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Digite um email válido.");
+            return;
+        }
 
-    if (usuarioLogado === "true") {
-      menu.innerHTML = `
-        <li><a href="quiz.html">Quiz</a></li>
-        <li><a href="dashboard.html">Dash</a></li>
-        <li><a href="#" onclick="logout()">Sair</a></li>
-      `;
-    } else {
-      menu.innerHTML = `
-        <li><a href="index.html">Home</a></li>
-        <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="login.html">Login</a></li>
-      `;
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                emailServer: email,
+                senhaServer: senha,
+            }),
+        })
+            .then(function (resposta) {
+                if (resposta.ok) {
+                    return resposta.json().then((dados) => {
+                        alert("Login realizado com sucesso! Redirecionando para o quiz...");
+
+                        // --- ARMAZENAMENTO NO LOCALSTORAGE ---
+                        // Usando a chave "ID_USUARIO" consistentemente
+                        localStorage.setItem("ID_USUARIO", dados.id);
+                        localStorage.setItem("NOME_USUARIO", dados.nome);
+                        localStorage.setItem("EMAIL_USUARIO", dados.email);
+                        // A chave "usuarioLogado" é mantida por segurança/compatibilidade, mas "ID_USUARIO" é a principal
+                        localStorage.setItem("usuarioLogado", "true");
+
+                        window.location.href = "quiz.html"; // Redireciona para o quiz
+                    });
+                } else {
+                    return resposta.text().then((mensagem) => {
+                        alert(mensagem); // Exibe a mensagem de erro do backend
+                    });
+                }
+            })
+            .catch(function (erro) {
+                console.error(`#ERRO: ${erro}`);
+                alert("Erro ao tentar fazer login. Verifique sua conexão ou tente novamente mais tarde.");
+            });
     }
-  });
 
-  function logout() {
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "index.html";
-  }
+    // --- LÓGICA DO MENU DE NAVEGAÇÃO DINÂMICO ---
+    window.addEventListener("DOMContentLoaded", () => {
+        // Verifica se o ID do usuário está no localStorage para determinar se está logado
+        const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
+
+        const menu = document.querySelector(".menu ul");
+        menu.innerHTML = ''; // Limpa o menu existente antes de preencher
+
+        if (usuarioLogado) {
+            // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
+            menu.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="dash.html">Dashboard</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            `;
+        } else {
+            // Se não está logado, mostra Home, Sobre e Login
+            menu.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            `;
+        }
+    });
+
+    // --- FUNÇÃO DE LOGOUT ---
+    function logout() {
+        // Remove todas as chaves relacionadas ao usuário do localStorage
+        localStorage.removeItem("ID_USUARIO");
+        localStorage.removeItem("NOME_USUARIO");
+        localStorage.removeItem("EMAIL_USUARIO");
+        localStorage.removeItem("usuarioLogado"); // Remove esta chave para limpeza completa
+
+        window.location.href = "index.html"; // Redireciona para a página inicial
+    }
 </script>

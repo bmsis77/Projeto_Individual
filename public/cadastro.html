@@ -15,10 +15,7 @@
         </div>
         <div class="menu">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
-                <li><a href="login.html" class="active">Login</a></li>
-            </ul>
+                </ul>
 
         </div>
     </div>
@@ -84,7 +81,7 @@
 </body>
 
 </html>
-  <script>
+<script>
     function cadastro() {
         var nome = document.getElementById("nome").value.trim();
         var telefone = document.getElementById("telefone").value.trim();
@@ -120,62 +117,72 @@
             return;
         }
 
-            fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nome,
-        emailServer: email,
-        senhaServer: senha,
-        telefoneServer: telefone,
-        jogadorFavoritoServer: jogadorFavorito
-        
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
+        fetch("/usuarios/cadastrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeServer: nome,
+                emailServer: email,
+                senhaServer: senha,
+                telefoneServer: telefone,
+                jogadorFavoritoServer: jogadorFavorito
 
-        if (resposta.ok) {
-          
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
 
-          alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...")
-          window.location.href = "login.html";
-
-          
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
+                if (resposta.ok) {
+                    alert("Cadastro realizado com sucesso! Redirecionando para tela de Login...")
+                    window.location.href = "login.html";
+                } else {
+                    alert("Houve um erro ao tentar realizar o cadastro!");
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                alert("Ocorreu um erro ao tentar realizar o cadastro. Tente novamente mais tarde.");
+            });
     };
+
+    // --- LÓGICA DO MENU DE NAVEGAÇÃO DINÂMICO ---
     window.addEventListener("DOMContentLoaded", () => {
-    const usuarioLogado = window.localStorage.getItem("usuarioLogado");
+        // Verifica se o ID do usuário está no localStorage para determinar se está logado
+        const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
 
-    const menu = document.querySelector(".menu ul");
+        const menu = document.querySelector(".menu ul");
+        menu.innerHTML = ''; // Limpa o menu existente antes de preencher
 
-    if (usuarioLogado === "true") {
-      menu.innerHTML = `
-        <li><a href="quiz.html">Quiz</a></li>
-        <li><a href="dashboard.html">Dash</a></li>
-        <li><a href="#" onclick="logout()">Sair</a></li>
-      `;
-    } else {
-      menu.innerHTML = `
-        <li><a href="index.html">Home</a></li>
-        <li><a href="sobre.html">Sobre</a></li>
-        <li><a href="login.html">Login</a></li>
-      `;
+        if (usuarioLogado) {
+            // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
+            menu.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="dash.html">Dashboard</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            `;
+        } else {
+            // Se não está logado, mostra Home, Sobre e Login
+            menu.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="login.html" class="active">Login</a></li>
+            `;
+        }
+    });
+
+    // --- FUNÇÃO DE LOGOUT ---
+    function logout() {
+        // Remove todas as chaves relacionadas ao usuário do localStorage
+        localStorage.removeItem("ID_USUARIO");
+        localStorage.removeItem("NOME_USUARIO");
+        localStorage.removeItem("EMAIL_USUARIO");
+        localStorage.removeItem("usuarioLogado"); // Remove também esta chave
+
+        window.location.href = "index.html"; // Redireciona para a página inicial
     }
-  });
-
-  function logout() {
-    localStorage.removeItem("usuarioLogado");
-    window.location.href = "index.html";
-  }
 </script>
