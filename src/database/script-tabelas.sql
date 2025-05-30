@@ -8,23 +8,23 @@ CREATE TABLE IF NOT EXISTS Usuario (
     senha VARCHAR(45),
     jogadorFavorito VARCHAR(45)
 );
-CREATE TABLE IF NOT EXISTS Quiz (
+CREATE TABLE IF NOT EXISTS Pergunta (
     idPergunta INT PRIMARY KEY,
     pergunta VARCHAR(255),
     respCorreta VARCHAR(45)
 );
 CREATE TABLE IF NOT EXISTS Usuario_Quiz (
-    idRegistroQuiz INT PRIMARY KEY AUTO_INCREMENT,
+    idQuiz INT PRIMARY KEY AUTO_INCREMENT,
     fk_idUsuario INT,                          
     fk_idPergunta INT,              
-    respostaSelecionada VARCHAR(45),      
-    pontuacaoDaTentativa INT,            
-    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    respUsuario VARCHAR(45),      
+    pontuacao CHAR(15),            
+    dtHora DATETIME DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (fk_idUsuario) REFERENCES Usuario(idUsuario),
-    FOREIGN KEY (fk_idPergunta) REFERENCES Quiz(idPergunta)
+    FOREIGN KEY (fk_idPergunta) REFERENCES Pergunta(idPergunta)
 );
 
-INSERT INTO Quiz (idPergunta, pergunta, respCorreta) VALUES
+INSERT INTO Pergunta (idPergunta, pergunta, respCorreta) VALUES
 (1, 'Qual era o nome original do clube?', 'alternativaB'),
 (2, 'Qual a data de fundação do Palmeiras?', 'alternativaA'),
 (3, 'Qual o nome da principal torcida organizada do Palmeiras?', 'alternativaC'),
@@ -44,3 +44,5 @@ INSERT INTO Quiz (idPergunta, pergunta, respCorreta) VALUES
 SELECT * FROM Usuario;
 SELECT * FROM Quiz;
 SELECT * FROM Usuario_Quiz;
+
+select distinct fk_idUsuario as 'idUsuario', pontuacaoDaTentativa as 'Pontuação'from Usuario_Quiz;
