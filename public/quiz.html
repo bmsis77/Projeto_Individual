@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +10,7 @@
         rel="stylesheet">
     <title>CoraçãoVerdeBranco/Quiz</title>
     <link rel="stylesheet" href="quiztyle.css">
-</head>
+    </head>
 
 <body onload="onloadEsconder()">
     <div class="nav">
@@ -21,7 +20,6 @@
         <div class="menu">
             <ul>
                 </ul>
-
         </div>
     </div>
     <div class="container">
@@ -29,21 +27,21 @@
             <div id="telaInicial">
                 <div class="p">Bem-Vindo</div><br>
                 <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
-            </div>
+                </div>
 
             <div id="jogo" class="width-fit-content flex-colunar border-secondary">
                 <div id="infoQuestao">
                     <span>Questão atual: <span id="spanNumeroDaQuestaoAtual"></span> de <span id="qtdQuestoes"></span>
                         questões.</span><br><br>
-                </div>
+                    </div>
 
                 <div id="perguntaDaQuestaoAtual">
                     <span id="spanQuestaoExibida" class="text-bold"></span><br><br>
-                </div>
+                    </div>
 
                 <div id="infoAlternativas">
                     <span><em>Escolha uma opção dentre as abaixo:</em></span><br><br>
-                </div>
+                    </div>
 
                 <div id="opcoes">
                     <div><input type="radio" id="primeiraOpcao" name="option" value="alternativaA"><label
@@ -59,11 +57,10 @@
                 <div class="justify-center">
                     <hr><br>
                 </div>
-
                 <div id="botoes">
                     <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
                     <button onclick="avancar()" id="btnProx" disabled>Avançar</button>
-                </div>
+                    </div>
             </div>
 
             <div id="pontuacao">
@@ -72,7 +69,7 @@
                 <p>Acertos: <span id="spanCertas"></span></p>
                 <p>Erros: <span id="spanErradas"></span></p>
                 <button onclick="tentarNovamente()" id="btnTentarNovamente">Tentar novamente</button>
-            </div>
+                </div>
         </div>
     </div>
 
@@ -80,9 +77,13 @@
 
 </html>
 <script>
+    // Início do bloco de script JavaScript.
+
     var respostasUsuario = [];
+    // Array que armazenará as respostas dadas pelo usuário, contendo o ID da pergunta e a alternativa selecionada.
 
     const listaDeQuestoes = [
+        // Array constante que armazena todas as questões do quiz. Cada objeto representa uma questão.
         { id: 1, pergunta: "Qual era o nome original do clube?", alternativaA: "Palmeiras Futebol Clube", alternativaB: "Palestra Itália", alternativaC: "Palmeiras Itália", alternativaD: "Palestra de São Paulo", alternativaCorreta: "alternativaB" },
         { id: 2, pergunta: "Qual a data de fundação do Palmeiras?", alternativaA: "26-08-1914", alternativaB: "24-08-1914", alternativaC: "26-06-1917", alternativaD: "24-04-1910", alternativaCorreta: "alternativaA" },
         { id: 3, pergunta: "Qual o nome da principal torcida organizada do Palmeiras?", alternativaA: "Máfia Verde", alternativaB: "Império Verde", alternativaC: "Mancha Alvi-Verde", alternativaD: "Esquadrão Alvi-Verde", alternativaCorreta: "alternativaC" },
@@ -100,211 +101,290 @@
         { id: 15, pergunta: "Quais foram os jogadores que fizeram os gols na histórica vitória de 4x0 contra o seu maior rival, Crédito Para Negativado!", alternativaA: "Deyverson e Raphael Veiga", alternativaB: "Raphael Veiga e Luiz Adriano", alternativaC: "Rony, Luiz Adriano e Raphael Veiga", alternativaD: "Rafael Marques e Dudu", alternativaCorreta: "alternativaB" }
     ];
 
-    // variáveis globais
-    let numeroDaQuestaoAtual = 0
-    let pontuacaoFinal = 0
-    let tentativaIncorreta = 0
-    let certas = 0
-    let erradas = 0
-    let quantidadeDeQuestoes = listaDeQuestoes.length
+    // Variáveis globais para controlar o estado do quiz.
+    let numeroDaQuestaoAtual = 0; // Índice da questão exibida atualmente (começa em 0).
+    let pontuacaoFinal = 0; // Variável para pontuação (não utilizada diretamente para cálculo de acertos/erros no código atual).
+    let tentativaIncorreta = 0; // Variável não utilizada no código atual.
+    let certas = 0; // Contador de respostas corretas.
+    let erradas = 0; // Contador de respostas incorretas.
+    let quantidadeDeQuestoes = listaDeQuestoes.length; // Armazena o número total de questões.
 
     function submeter() {
+        // Função chamada quando o botão "Submeter resposta" é clicado.
         const alternativas = document.getElementsByName('option');
+        // Obtém todos os elementos input de rádio com o nome 'option'.
         const labels = [
             document.getElementById('labelOpcaoUm'),
             document.getElementById('labelOpcaoDois'),
             document.getElementById('labelOpcaoTres'),
             document.getElementById('labelOpcaoQuatro')
         ];
+        // Obtém os elementos label associados a cada opção.
 
         let alternativaSelecionada = null;
+        // Variável para armazenar a alternativa selecionada pelo usuário.
         for (const alternativa of alternativas) {
+            // Itera sobre todos os rádio buttons.
             if (alternativa.checked) {
+                // Se um rádio button estiver marcado (selecionado).
                 alternativaSelecionada = alternativa.value;
-                break;
+                // Armazena o valor (value) da alternativa selecionada.
+                break; // Sai do loop assim que a alternativa é encontrada.
             }
         }
 
         if (!alternativaSelecionada) {
-            alert("Selecione uma alternativa!");
-            return;
+            // Verifica se nenhuma alternativa foi selecionada.
+            alert("Selecione uma alternativa!"); // Exibe um alerta ao usuário.
+            return; // Interrompe a execução da função.
         }
 
         respostasUsuario.push({
+            // Adiciona a resposta do usuário ao array 'respostasUsuario'.
             fk_idPergunta: listaDeQuestoes[numeroDaQuestaoAtual].id,
+            // ID da pergunta atual.
             respostaSelecionada: alternativaSelecionada
+            // Valor da alternativa selecionada pelo usuário.
         });
 
         const alternativaCorreta = listaDeQuestoes[numeroDaQuestaoAtual].alternativaCorreta;
+        // Obtém a alternativa correta da questão atual.
 
-        const CORRETA = "#198754";
-        const INCORRETA = "#ED145B";
+        const CORRETA = "#198754"; // Define a cor verde para respostas corretas.
+        const INCORRETA = "#ED145B"; // Define a cor vermelha para respostas incorretas.
 
         alternativas.forEach((alt, index) => {
+            // Itera sobre cada rádio button e seu índice.
             if (alt.value === alternativaCorreta) {
-                labels[index].style.color = CORRETA;
+                // Se o valor da alternativa for igual à alternativa correta.
+                labels[index].style.color = CORRETA; // Define a cor do label para verde.
             } else {
-                labels[index].style.color = INCORRETA;
+                // Se não for a alternativa correta.
+                labels[index].style.color = INCORRETA; // Define a cor do label para vermelho.
             }
         });
 
         if (alternativaSelecionada === alternativaCorreta) {
-            certas++;
+            // Verifica se a alternativa selecionada pelo usuário é a correta.
+            certas++; // Incrementa o contador de acertos.
         } else {
-            erradas++;
+            // Se a alternativa selecionada for incorreta.
+            erradas++; // Incrementa o contador de erros.
         }
 
         document.getElementById('btnProx').disabled = false;
+        // Habilita o botão "Avançar".
         document.getElementById('btnSubmeter').disabled = true;
+        // Desabilita o botão "Submeter resposta".
         alternativas.forEach(alt => alt.disabled = true);
+        // Desabilita todos os rádio buttons para que o usuário não possa mudar a resposta.
     }
 
     function avancar() {
+        // Função chamada quando o botão "Avançar" é clicado.
         if (!document.getElementById('btnSubmeter').disabled) {
-            alert("Você precisa submeter a resposta antes de avançar!");
-            return;
+            // Verifica se o botão "Submeter resposta" ainda está habilitado (o que significa que a resposta não foi submetida).
+            alert("Você precisa submeter a resposta antes de avançar!"); // Alerta o usuário.
+            return; // Interrompe a execução da função.
         }
 
         if (numeroDaQuestaoAtual >= listaDeQuestoes.length - 1) {
-            finalizarJogo();
-            return;
+            // Verifica se é a última questão do quiz.
+            finalizarJogo(); // Se sim, chama a função para finalizar o jogo.
+            return; // Interrompe a execução da função.
         }
 
-        numeroDaQuestaoAtual++;
-        preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual);
+        numeroDaQuestaoAtual++; // Incrementa o índice da questão atual.
+        preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual); // Chama a função para exibir a próxima questão.
     }
 
     function onloadEsconder() {
+        // Função chamada no carregamento da página para ocultar elementos.
         document.getElementById('jogo').style.display = "none";
+        // Oculta a seção do jogo.
         document.getElementById('pontuacao').style.display = "none";
+        // Oculta a seção de pontuação.
     }
 
     function iniciarQuiz() {
+        // Função chamada quando o botão "INICIAR QUIZ" é clicado.
         document.getElementById('telaInicial').style.display = "none";
+        // Oculta a tela inicial.
         document.getElementById('jogo').style.display = "block";
+        // Exibe a seção do jogo.
         document.getElementById('pontuacao').style.display = "none";
+        // Garante que a seção de pontuação esteja oculta.
 
         document.getElementById('qtdQuestoes').innerHTML = listaDeQuestoes.length;
+        // Atualiza o total de questões exibido na interface do jogo.
 
         preencherHTMLcomQuestaoAtual(0);
+        // Chama a função para exibir a primeira questão (índice 0).
 
         document.getElementById('btnSubmeter').disabled = false;
+        // Habilita o botão "Submeter resposta".
         document.getElementById('btnProx').disabled = true;
+        // Desabilita o botão "Avançar".
         document.getElementById('btnProx').style.display = "inline-block";
+        // Garante que o botão "Avançar" esteja visível.
     }
 
     function preencherHTMLcomQuestaoAtual(indice) {
+        // Função para preencher dinamicamente o HTML com os dados da questão no índice fornecido.
         const questao = listaDeQuestoes[indice];
+        // Obtém o objeto da questão a partir do array 'listaDeQuestoes'.
         document.getElementById('spanNumeroDaQuestaoAtual').innerText = indice + 1;
+        // Atualiza o número da questão atual (adiciona 1 para começar do 1, não do 0).
         document.getElementById('spanQuestaoExibida').innerText = questao.pergunta;
+        // Preenche o span com a pergunta da questão.
         document.getElementById('labelOpcaoUm').innerText = questao.alternativaA;
+        // Preenche o label da primeira opção com o texto da alternativa A.
         document.getElementById('labelOpcaoDois').innerText = questao.alternativaB;
+        // Preenche o label da segunda opção.
         document.getElementById('labelOpcaoTres').innerText = questao.alternativaC;
+        // Preenche o label da terceira opção.
         document.getElementById('labelOpcaoQuatro').innerText = questao.alternativaD;
+        // Preenche o label da quarta opção.
 
         const alternativas = document.getElementsByName('option');
+        // Obtém novamente todos os rádio buttons.
         alternativas.forEach(alt => {
-            alt.checked = false;
-            alt.disabled = false;
+            // Itera sobre eles para resetar o estado.
+            alt.checked = false; // Desmarca todas as opções.
+            alt.disabled = false; // Reabilita todos os rádio buttons.
         });
 
         const labels = [
+            // Obtém os labels novamente para resetar suas cores.
             document.getElementById('labelOpcaoUm'),
             document.getElementById('labelOpcaoDois'),
             document.getElementById('labelOpcaoTres'),
             document.getElementById('labelOpcaoQuatro')
         ];
         labels.forEach(label => label.style.color = "initial");
+        // Reseta a cor dos labels para a cor padrão (removendo feedback de acerto/erro da questão anterior).
 
         document.getElementById('btnSubmeter').disabled = false;
+        // Habilita o botão "Submeter resposta" para a nova questão.
         document.getElementById('btnProx').disabled = true;
+        // Desabilita o botão "Avançar" até que a resposta seja submetida.
     }
 
     async function finalizarJogo() {
-        let textoParaMensagemFinal;
+        // Função assíncrona chamada para exibir os resultados finais do quiz.
+        let textoParaMensagemFinal; // Variável para armazenar a mensagem de resultado.
         const porcentagemFinalDeAcertos = (certas / listaDeQuestoes.length) * 100;
-        let imagemResultado = "";
+        // Calcula a porcentagem de acertos.
+        let imagemResultado = ""; // Variável para armazenar o caminho da imagem de resultado.
 
         if (porcentagemFinalDeAcertos <= 30) {
+            // Condição para baixa porcentagem de acertos.
             textoParaMensagemFinal = "Temos um rival infiltrado...";
             imagemResultado = "images/triste.jpg";
         } else if (porcentagemFinalDeAcertos < 90) {
+            // Condição para porcentagem de acertos média.
             textoParaMensagemFinal = "Bora estudar mais parmeira!";
             imagemResultado = "images/seinao.jpg";
         } else {
+            // Condição para alta porcentagem de acertos.
             textoParaMensagemFinal = "Palmeirense raiz, AVANTI PALESTRA!";
             imagemResultado = "images/feliz.jpg";
         }
 
         document.getElementById('pontuacao').style.display = "block";
+        // Exibe a seção de pontuação.
         document.getElementById('msgFinal').innerText = textoParaMensagemFinal;
+        // Atualiza o texto da mensagem final.
         document.getElementById('spanCertas').innerText = certas;
+        // Exibe o número de acertos.
         document.getElementById('spanErradas').innerText = erradas;
+        // Exibe o número de erros.
 
         const imgElemento = document.createElement('img');
-        imgElemento.src = imagemResultado;
-        imgElemento.alt = "Resultado final";
-        imgElemento.style.width = '300px';
+        // Cria um novo elemento <img>.
+        imgElemento.src = imagemResultado; // Define o caminho da imagem.
+        imgElemento.alt = "Resultado final"; // Define o texto alternativo da imagem.
+        imgElemento.style.width = '300px'; // Define a largura da imagem.
 
         const btnTentarNovamente = document.getElementById('btnTentarNovamente');
+        // Obtém o botão "Tentar novamente".
         const imagemAntiga = document.querySelector('#pontuacao img');
+        // Procura por uma imagem existente na seção de pontuação.
         if (imagemAntiga) {
-            imagemAntiga.remove();
+            // Se uma imagem antiga existir.
+            imagemAntiga.remove(); // Remove-a para evitar duplicidade.
         }
         btnTentarNovamente.insertAdjacentElement('afterend', imgElemento);
+        // Insere a nova imagem após o botão "Tentar novamente".
 
         document.getElementById('jogo').style.display = "none";
+        // Oculta a seção do jogo.
         document.getElementById('btnTentarNovamente').style.display = "inline-block";
+        // Garante que o botão "Tentar novamente" esteja visível.
 
         // --- ENVIO DA PONTUAÇÃO PARA O BACKEND ---
         const ID_USUARIO = localStorage.getItem("ID_USUARIO");
+        // Tenta obter o ID do usuário do localStorage.
 
         if (!ID_USUARIO) {
+            // Verifica se o ID do usuário não foi encontrado.
             console.error("ID do usuário não encontrado. Não é possível enviar o quiz.");
             alert("Erro: ID do usuário não encontrado. Por favor, faça login novamente.");
-            return;
+            return; // Interrompe a execução da função.
         }
 
         try {
+            // Bloco try-catch para lidar com possíveis erros na requisição de rede.
             const response = await fetch("/usuarios/quizelar", {
-                method: "POST",
+                // Faz uma requisição HTTP POST para a rota '/usuarios/quizelar' no backend.
+                method: "POST", // Método da requisição.
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/json", // Tipo de conteúdo enviado no corpo da requisição.
                 },
                 body: JSON.stringify({
-                    fk_idUsuario: ID_USUARIO,
-                    pontuacao: certas,
-                    respostasDoUsuario: respostasUsuario
+                    // Converte o objeto JavaScript em uma string JSON para ser enviado como corpo da requisição.
+                    fk_idUsuario: ID_USUARIO, // ID do usuário.
+                    pontuacao: certas, // Pontuação (número de acertos).
+                    respostasDoUsuario: respostasUsuario // Array com as respostas detalhadas do usuário.
                 }),
             });
 
             if (response.ok) {
+                // Verifica se a resposta do servidor foi bem-sucedida (status 2xx).
                 alert("Quiz enviado com sucesso para o banco de dados!");
             } else {
-                const errorMessage = await response.text();
-                alert(`Erro ao enviar o quiz: ${errorMessage || response.statusText}`);
-                console.error("Detalhes do erro do backend:", errorMessage);
+                // Se a resposta não foi bem-sucedida.
+                const errorMessage = await response.text(); // Tenta obter a mensagem de erro do corpo da resposta.
+                alert(`Erro ao enviar o quiz: ${errorMessage || response.statusText}`); // Exibe um alerta com a mensagem de erro.
+                console.error("Detalhes do erro do backend:", errorMessage); // Loga os detalhes do erro no console.
             }
         } catch (err) {
-            console.error("Erro na comunicação com o servidor ao enviar quiz:", err);
-            alert("Ocorreu um erro ao tentar enviar o quiz. Verifique sua conexão ou tente novamente.");
+            // Captura qualquer erro que ocorra durante a requisição de rede.
+            console.error("Erro na comunicação com o servidor ao enviar quiz:", err); // Loga o erro no console.
+            alert("Ocorreu um erro ao tentar enviar o quiz. Verifique sua conexão ou tente novamente."); // Alerta o usuário sobre o erro de comunicação.
         }
     }
 
     function tentarNovamente() {
-        location.reload();
+        // Função chamada quando o botão "Tentar novamente" é clicado.
+        location.reload(); // Recarrega a página, reiniciando o quiz.
     }
 
     // --- Lógica de Validação de Login e Menu Dinâmico ---
     window.addEventListener("DOMContentLoaded", () => {
+        // Adiciona um ouvinte de evento que é acionado quando o DOM é completamente carregado.
         // Verifica se o ID do usuário está no localStorage para determinar se está logado
         const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
+        // Verifica se a chave 'ID_USUARIO' existe no localStorage para saber se o usuário está logado.
 
         const menu = document.querySelector(".menu ul");
+        // Obtém o elemento <ul> dentro do div com a classe 'menu'.
         menu.innerHTML = ''; // Limpa o menu existente antes de preencher
+        // Remove quaisquer itens de menu existentes para evitar duplicatas.
 
         if (usuarioLogado) {
-            // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
+            // Se o usuário está logado.
+            // Preenche o menu com links para Home, Sobre, Quiz, Dashboard e Sair.
             menu.innerHTML = `
                 <li><a href="index.html">Home</a></li>
                 <li><a href="sobre.html">Sobre</a></li>
@@ -313,21 +393,22 @@
                 <li><a href="#" onclick="logout()">Sair</a></li>
             `;
         } else {
-            // Se não está logado, redireciona para a página de login
-            alert("Você precisa estar logado para acessar esta página.");
-            window.location.href = "login.html";
+            // Se o usuário NÃO está logado.
+            alert("Você precisa estar logado para acessar esta página."); // Alerta o usuário.
+            window.location.href = "login.html"; // Redireciona o usuário para a página de login.
             // O menu não será exibido aqui, pois o usuário será redirecionado.
             // Para garantir que o menu da página de login seja o correto, ele já foi ajustado lá.
         }
     });
 
     function logout() {
-        // Remove todas as chaves relacionadas ao usuário do localStorage
+        // Função chamada para realizar o logout do usuário.
+        // Remove todas as chaves relacionadas ao usuário do localStorage.
         localStorage.removeItem("ID_USUARIO");
         localStorage.removeItem("NOME_USUARIO");
         localStorage.removeItem("EMAIL_USUARIO");
         localStorage.removeItem("usuarioLogado");
 
-        window.location.href = "index.html"; // Redireciona para a página inicial
+        window.location.href = "index.html"; // Redireciona para a página inicial após o logout.
     }
 </script>
