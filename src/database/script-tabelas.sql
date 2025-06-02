@@ -17,9 +17,9 @@ CREATE TABLE IF NOT EXISTS Usuario_Quiz (
     idQuiz INT PRIMARY KEY AUTO_INCREMENT,
     fk_idUsuario INT,                          
     fk_idPergunta INT,              
-    respUsuario VARCHAR(45),      
-    pontuacao CHAR(15),            
-    dtHora DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    respostaSelecionada VARCHAR(45),      
+    pontuacaoDaTentativa CHAR(15),            
+    dataHora DATETIME DEFAULT CURRENT_TIMESTAMP, 
     FOREIGN KEY (fk_idUsuario) REFERENCES Usuario(idUsuario),
     FOREIGN KEY (fk_idPergunta) REFERENCES Pergunta(idPergunta)
 );
@@ -42,7 +42,7 @@ INSERT INTO Pergunta (idPergunta, pergunta, respCorreta) VALUES
 (15, 'Quais foram os jogadores que fizeram os gols na histórica vitória de 4x0 contra o seu maior rival, Crédito Para Negativado!', 'alternativaB');
 
 SELECT * FROM Usuario;
-SELECT * FROM Quiz;
+SELECT * FROM Pergunta;
 SELECT * FROM Usuario_Quiz;
 
 select distinct fk_idUsuario as 'idUsuario', pontuacaoDaTentativa as 'Pontuação'from Usuario_Quiz;

@@ -9,78 +9,21 @@
 </head>
 
 <body>
-  <div class="container">
-    <div class="topbar">
-      <div class="logo">
-        <h2>Brand.</h2>
-      </div>
-      <div class="search">
-        <input type="text" id="search" placeholder="search here">
-        <label for="search"> <i class="fas fa-search"></i></label>
-      </div>
-      <i class="fas fa-bell"></i>
-      <div class="user">
-        <img src="images/logi.webp" alt="">
-      </div>
+  <div class="nav">
+    <div class="logo">
+        Torcida Que Canta e Vibra
     </div>
-    <div class="sidebar">
-      <ul>
-        <li>
-          <a href="">
-            <i class="fas fa-th-large"></i>
-            <div>Dashboard</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-user-graduate"></i>
-            <div>Students</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-th-chalkboard-teacher"></i>
-            <div>Teachers</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-users"></i>
-            <div>Employees</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-chart-bar"></i>
-            <div>Analytics</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-hand-holding-usd"></i>
-            <div>Earnings</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-cog"></i>
-            <div>Settings</div>
-          </a>
-        </li>
-        <li>
-          <a href="">
-            <i class="fas fa-question"></i>
-            <div>Help</div>
-          </a>
-        </li>
-      </ul>
+    <div class="menu">
+        <ul>
+            </ul>
     </div>
+</div>
     <div class="main">
       <div class="cards">
         <div class="card">
           <div class="card-content">
-            <div class="number">1217</div>
-            <div class="card-name">Students</div>
+            <div class="number">$</div>
+            <div class="card-name">Pontuação Média do Quiz</div>
           </div>
           <div class="icon-box">
             <i class="fas fa-user-graduate"></i>
@@ -88,17 +31,8 @@
         </div>
         <div class="card">
           <div class="card-content">
-            <div class="number">42</div>
-            <div class="card-name">Teachers</div>
-          </div>
-          <div class="icon-box">
-            <i class="fas fa-th-chalkboard-teacher"></i>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-content">
-            <div class="number">68</div>
-            <div class="card-name">Employees</div>
+            <div class="number">$</div>
+            <div class="card-name">Questão Mais Errada</div>
           </div>
           <div class="icon-box">
             <i class="fas fa-users"></i>
@@ -106,8 +40,8 @@
         </div>
         <div class="card">
           <div class="card-content">
-            <div class="number">R$4500</div>
-            <div class="card-name">Earnings</div>
+            <div class="number">$</div>
+            <div class="card-name">Família Palmeiras</div>
           </div>
           <div class="icon-box">
             <i class="fas fa-dollar-sign"></i>
@@ -116,19 +50,58 @@
       </div>
       <div class="charts">
         <div class="chart">
-          <h2>Earnings (past 12 months)</h2>
+          <h2>Jogadores Favoritos</h2>
           <canvas id="lineChart"></canvas>
         </div>
         <div class="chart" id="doughnut-chart">
-          <h2>Employees</h2>
+          <h2>Porcentagens da Pontuação</h2>
           <canvas id="doughnut"></canvas>
         </div>
       </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
-  <script src="chart.js"></script>
-  <script src="chart2.js"></script>
+  <script src="dash1.js"></script>
+  <script src="dash2.js"></script>
 </body>
 
 </html>
+<script>
+      // --- LÓGICA DO MENU DE NAVEGAÇÃO DINÂMICO ---
+      window.addEventListener("DOMContentLoaded", () => {
+        // Verifica se o ID do usuário está no localStorage para determinar se está logado
+        const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null; // Verifica a chave correta
+
+        const menu = document.querySelector(".menu ul");
+        menu.innerHTML = ''; // Limpa o menu existente antes de preencher
+
+        if (usuarioLogado) {
+            // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
+            menu.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="quiz.html">Quiz</a></li>
+                <li><a href="dash.html" class="active">Dashboard</a></li>
+                <li><a href="#" onclick="logout()">Sair</a></li>
+            `;
+        } else {
+            // Se não está logado, mostra Home, Sobre e Login
+            menu.innerHTML = `
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="login.html">Login</a></li>
+            `;
+        }
+    });
+
+    // --- FUNÇÃO DE LOGOUT ---
+    function logout() {
+        // Remove todas as chaves relacionadas ao usuário do localStorage
+        localStorage.removeItem("ID_USUARIO");
+        localStorage.removeItem("NOME_USUARIO");
+        localStorage.removeItem("EMAIL_USUARIO");
+        localStorage.removeItem("usuarioLogado"); // Para garantir a limpeza completa
+
+        window.location.href = "index.html"; // Redireciona para a página inicial
+    }
+</script>

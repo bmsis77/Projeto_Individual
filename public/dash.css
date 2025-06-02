@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nosifer&family=Roboto:wght@100..900&display=swap');
 * {
     padding: 0;
     margin: 0;
@@ -5,90 +6,16 @@
     font-family: 'poppins', sans-serif;
 }
 
-.user {
-    position: relative;
-    width: 50px;
-    height: 50px;
-}
-
-.user img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
-
-.topbar {
-    position: fixed;
-    background: #fff;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
-    width: 100%;
-    height: 60px;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 2fr 10fr 0.4fr 1fr;
-    align-items: center;
-    z-index: 1;
+body {
+    background-color: #527dda;
 }
 
 .logo h2 {
-    color: blue;
+    color: rgb(45, 100, 24);
+    font-family: "Nosifer", sans-serif;
 }
-
-.search {
-    position: relative;
-    width: 100%;
-    justify-self: center;
-}
-
-.search input {
-    width: 100%;
-    height: 40px;
-    padding: 0 40px;
-    font-size: 16px;
-}
-
-.search i {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    cursor: pointer;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    background: whitesmoke;
-}
-
-.sidebar {
-    position: fixed;
-    top: 60px;
-    width: 260px;
-    height: calc(100% - 60px);
-    background: green;
-    overflow-x: hidden;
-}
-
-.sidebar ul{
-    margin-top: 20px;
-}
-
-.sidebar ul li{
-    width: 100%;
-    list-style: none;
-}
-
-.sidebar ul li:hover{
-background: #fff;
-}
-
-.sidebar ul li:hover a{
-color: #00ff95;
-}
-
 .cards .card:hover{
-    background: #00e1ff;
+    background: #7faa6a;
 }
 
 .cards .card:hover .number{
@@ -103,36 +30,22 @@ color: #00ff95;
     color: #ffffff;
 }
 
-.sidebar ul a{
-    width: 100%;
-    text-decoration: none;
-    color: #fff;
-    height: 60px;
-    display: flex;
-    align-items: center;
-}
-
-.sidebar ul a i{
-min-width: 60px;
-font-size: 24px;
-text-align: center;
-}
-
 .main {
     position: absolute;
-    top: 60px;
-    width: calc(100% - 260px);
+    top: 130px;
+    width: 70%;
     left: 260px;
-    min-height: calc(100vh - 60px);
-    background: #f5f5f5;
+    background:  rgba(0, 44, 0, 0.534);
+    border-radius: 20px;
 }
 
 .cards{
     width: 100%;
-    padding: 35px 20px;
+    padding: 50px 50px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+    justify-content: space-between;
 }
 
 .cards .card{
@@ -156,10 +69,6 @@ box-shadow: 0 7px 25px 0 rgba(0, 0, 0, 0.08);
     font-weight: 600;
 }
 
-.icon-box i{
-    font-size: 45px;
-    color: green;
-}
 
 .charts{
     display: grid;
@@ -172,7 +81,7 @@ box-shadow: 0 7px 25px 0 rgba(0, 0, 0, 0.08);
 
 .chart{
     background: #ffffff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 10px;
     box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
     width: 100%;
@@ -181,6 +90,55 @@ box-shadow: 0 7px 25px 0 rgba(0, 0, 0, 0.08);
 .chart h2{
     margin-bottom: 5px;
     font-size: 20px;
-    color: aqua;
+    color: #438d20;
     text-align: center;
+}
+.nav {
+    width: 1100px;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 9;
+}
+
+.nav .logo {
+    font-size: 30px;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    letter-spacing: 1.5px;
+    font-family: "Nosifer", sans-serif;
+    margin-left: -75px;
+
+}
+
+.nav .menu {
+    width: 45%;
+}
+
+.nav .menu ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav .menu ul li {
+    list-style: none;
+}
+
+.nav .menu ul li a {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+.nav .menu .active {
+    color:  rgb(255, 0, 0)
 }
