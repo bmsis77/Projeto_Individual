@@ -42,7 +42,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="number" id="totalFamiliaPalmeiras">$</div>
-                    <div class="card-name">Total Família Palmeiras</div>
+                    <div class="card-name">Usuários Cadastrados</div>
                 </div>
                 <div class="icon-box">
                     <i class="fas fa-child"></i> </div>
@@ -64,11 +64,16 @@
 
 </html>
 <script>
-  // dashScript.js
 
-// --- Funções para atualizar KPIs ---
 function buscarDadosKPIs() {
-    // KPI: Pontuação Média do Quiz
+const idUsuario = localStorage.getItem("ID_USUARIO");
+
+fetch(`/dashboard/pontuacao-usuario/${idUsuario}`)
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+  });
+
     fetch("/dashboard/pontuacao-media")
         .then(response => {
             if (response.ok) {
@@ -77,13 +82,17 @@ function buscarDadosKPIs() {
             throw new Error('Erro ao buscar pontuação média.');
         })
         .then(data => {
-            // Atualiza o card com a pontuação média formatada para 2 casas decimais
-            document.getElementById("pontuacaoMediaQuiz").innerHTML = `${data.mediaPontuacao ? data.mediaPontuacao.toFixed(2) : 'N/A'}`;
+            console.log('Resposta:', data);
+            let media = Number(data.mediaPontuacao);
+            document.getElementById("pontuacaoMediaQuiz").innerHTML = `${
+                !isNaN(media) ? media.toFixed(2) : 'N/A'
+            }`;
         })
         .catch(error => {
             console.error('Erro na pontuação média:', error);
             document.getElementById("pontuacaoMediaQuiz").innerHTML = `Erro!`;
         });
+
 
     // KPI: Questão Mais Errada
     fetch("/dashboard/questao-mais-errada")
@@ -126,15 +135,17 @@ let pontuacaoDoughnutChart;
 
 // --- Função para plotar o gráfico de Jogadores Favoritos ---
 function plotarVotosJogadores(dados) {
-    const labels = dados.map(item => item.jogadorFavorito); // Pega os nomes dos jogadores
-    const votos = dados.map(item => item.votos); // Pega a contagem de votos
+    const labels = [];
+    const votos = [];
+
+    // Usando for loop para preencher os arrays 'labels' e 'votos'
+    for (let i = 0; i < dados.length; i++) {
+        const item = dados[i];
+        labels.push(item.jogadorFavorito); // Adiciona o nome do jogador ao array de rótulos
+        votos.push(item.votos);           // Adiciona a contagem de votos ao array de votos
+    }
 
     const ctx = document.getElementById('jogadoresFavoritosChart');
-
-    // Se o gráfico já existe, ele é destruído para evitar sobreposição
-    if (jogadoresFavoritosChart) {
-        jogadoresFavoritosChart.destroy();
-    }
 
     jogadoresFavoritosChart = new Chart(ctx, {
         type: 'bar',
@@ -143,8 +154,8 @@ function plotarVotosJogadores(dados) {
             datasets: [{
                 label: 'Votos',
                 data: votos,
-                backgroundColor: 'rgb(35, 119, 35)', // Verde Palmeiras
-                borderColor: 'rgb(41, 155, 99)', // Borda verde
+                backgroundColor: 'rgb(35, 119, 35)',
+                borderColor: 'rgb(41, 155, 99)', 
                 borderWidth: 1
             }]
         },
@@ -173,11 +184,6 @@ function plotarPorcentagensPontuacao(dados) {
     const respostasErradas = dados.respostasErradas;
 
     const ctx2 = document.getElementById('pontuacaoDoughnutChart');
-
-    // Se o gráfico já existe, ele é destruído
-    if (pontuacaoDoughnutChart) {
-        pontuacaoDoughnutChart.destroy();
-    }
 
     pontuacaoDoughnutChart = new Chart(ctx2, {
         type: 'doughnut',

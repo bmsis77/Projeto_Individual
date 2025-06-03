@@ -4,7 +4,7 @@ var dashboardTorcidaModel = require("../models/dashboardTorcidaModel");
 function getPontuacaoMediaQuiz(req, res) {
     dashboardTorcidaModel.buscarPontuacaoMediaQuiz().then(function (resultado) {
         if (resultado.length > 0) {
-            res.status(200).json(resultado[0]); // Retorna o primeiro (e único) resultado da média
+            res.status(200).json(resultado[0]); 
         } else {
             res.status(204).send("Nenhum resultado encontrado para pontuação média!");
         }

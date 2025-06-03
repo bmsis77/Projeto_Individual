@@ -19,7 +19,6 @@ function cadastrar(nome, email, senha, telefone, jogadorFavorito) {
     return database.executar(instrucaoSql);
 }
 
-// --- NOVA FUNÇÃO NO MODEL PARA SALVAR CADA RESPOSTA INDIVIDUAL DO QUIZ ---
 function salvarRespostaQuiz(fk_idUsuario, fk_idPergunta, respostaSelecionada, pontuacaoDaTentativa) {
     console.log(`ACESSEI O USUARIO MODEL PARA SALVAR RESPOSTA DO QUIZ!
         ID Usuário: ${fk_idUsuario},
@@ -27,9 +26,6 @@ function salvarRespostaQuiz(fk_idUsuario, fk_idPergunta, respostaSelecionada, po
         Resposta Selecionada: ${respostaSelecionada},
         Pontuação Total da Tentativa: ${pontuacaoDaTentativa}`);
 
-    // A instrução SQL INSERT agora usa as novas nomenclaturas e os valores passados
-    // 'respostaSelecionada' é uma string, por isso precisa de aspas simples na SQL
-    // 'dataHora' é preenchido automaticamente pelo DEFAULT CURRENT_TIMESTAMP no BD
     var instrucaoSql = `
         INSERT INTO Usuario_Quiz (fk_idUsuario, fk_idPergunta, respostaSelecionada, pontuacaoDaTentativa, dataHora)
         VALUES (${fk_idUsuario}, ${fk_idPergunta}, '${respostaSelecionada}', ${pontuacaoDaTentativa}, NOW());
@@ -42,5 +38,5 @@ function salvarRespostaQuiz(fk_idUsuario, fk_idPergunta, respostaSelecionada, po
 module.exports = {
     autenticar,
     cadastrar,
-    salvarRespostaQuiz // Exportando a nova função para uso no controller
+    salvarRespostaQuiz 
 };

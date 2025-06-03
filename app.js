@@ -2,9 +2,6 @@
 var ambiente_processo = 'desenvolvimento';
 
 var caminho_env = ambiente_processo === 'producao' ? '.env' : '.env.dev';
-// Acima, temos o uso do operador ternário para definir o caminho do arquivo .env
-// A sintaxe do operador ternário é: condição ? valor_se_verdadeiro : valor_se_falso
-
 require("dotenv").config({ path: caminho_env });
 
 var express = require("express");
@@ -15,36 +12,41 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
+app.use(cors());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use(express.static(path.join(__dirname, "public")));
+
 var usuarioRouter = require("./src/routes/usuarios");
 var dashboardTorcidaRouter = require("./src/routes/dashboardTorcidaRoute.js"); 
 
 app.use("/usuarios", usuarioRouter);
-app.use("/dashboard", dashboardTorcidaRouter); 
+app.use("/dashboard", dashboardTorcidaRouter);
 
+app.get('/dashboard/pontuacao-usuario/:idUsuario', (req, res) => {
+  const idUsuario = req.params.idUsuario;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
-
-app.use(cors());
-
-app.use("/usuarios", usuarioRouter);
+  dashboardModel.buscarPorcentagensPontuacao(idUsuario)
+    .then(result => res.json(result))
+    .catch(err => res.status(500).json({ error: err.message }));
+});
 
 
 app.listen(PORTA_APP, function () {
     console.log(`
-    ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
-    ##   ##  ##       ##  ##            ## ##     ####      ##      ####             ##  ##     ##         ##  
-    ##   ##  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##        ##   
-    ## # ##  ####     #####    ######   ##  ##   ######     ##     ######   ######   ##  ##     ##       ##    
-    #######  ##       ##  ##            ##  ##   ##  ##     ##     ##  ##            ##  ##     ##      ##     
-    ### ###  ##       ##  ##            ## ##    ##  ##     ##     ##  ##             ####      ##     ##      
-    ##   ##  ######   #####             ####     ##  ##     ##     ##  ##              ##      ####    ######  
-    \n\n\n                                                                                                 
+    ##   ##  ######   #####           ####      ##    ######     ##          ##  ##    ####    ######  
+    ##   ##  ##      ##  ##           ## ##    ####      ##      ####           ##  ##     ##          ##  
+    ##   ##  ##      ##  ##           ##  ##  ##  ##     ##     ##  ##          ##  ##     ##         ##   
+    ## # ##  ####    #####   ######   ##  ##  ######     ##     ######   ######  ##  ##     ##        ##    
+    #######  ##      ##  ##           ##  ##  ##  ##     ##     ##  ##           ##  ##     ##       ##     
+    ### ###  ##      ##  ##           ## ##    ##  ##     ##     ##  ##            ####      ##      ##      
+    ##   ##  ######  #####            ####     ##  ##     ##     ##  ##            ##      ####    ######  
+    \n\n\n                                                                                                
     Servidor do seu site já está rodando! Acesse o caminho a seguir para visualizar .: http://${HOST_APP}:${PORTA_APP} :. \n\n
     Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n
-    \tSe .:desenvolvimento:. você está se conectando ao banco local. \n
-    \tSe .:producao:. você está se conectando ao banco remoto. \n\n
-    \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
+        Se .:desenvolvimento:. você está se conectando ao banco local. \n
+        Se .:producao:. você está se conectando ao banco remoto. \n\n
+        \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
 });
-
