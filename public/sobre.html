@@ -31,6 +31,8 @@
                 <input type="radio" name="btn-radio" id="radio6">
                 <input type="radio" name="btn-radio" id="radio7">
                 <input type="radio" name="btn-radio" id="radio8">
+                <input type="radio" name="btn-radio" id="radio9">
+                <input type="radio" name="btn-radio" id="radio10">
 
                 <div class="slide-box primeiro">
                     <img src="images/fake2.jpg" alt="slide 1">
@@ -166,41 +168,36 @@
 
 </html>
 <script>
-    // --- LÓGICA DO MENU DE NAVEGAÇÃO DINÂMICO ---
     window.addEventListener("DOMContentLoaded", () => {
-        // Verifica se o ID do usuário está no localStorage para determinar se está logado
-        const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null; // Verifica a chave correta
+        const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null; 
 
         const menu = document.querySelector(".menu ul");
-        menu.innerHTML = ''; // Limpa o menu existente antes de preencher
+        menu.innerHTML = '';
 
         if (usuarioLogado) {
-            // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
             menu.innerHTML = `
                 <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html" class="active">Sobre</a></li>
+                <li><a href="sobre.html" class="active">Torcida</a></li>
                 <li><a href="quiz.html">Quiz</a></li>
                 <li><a href="dash.html">Dashboard</a></li>
                 <li><a href="#" onclick="logout()">Sair</a></li>
             `;
         } else {
-            // Se não está logado, mostra Home, Sobre e Login
+
             menu.innerHTML = `
                 <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html" class="active">Sobre</a></li>
+                <li><a href="sobre.html" class="active">Torcida</a></li>
                 <li><a href="login.html">Login</a></li>
             `;
         }
     });
 
-    // --- FUNÇÃO DE LOGOUT ---
     function logout() {
-        // Remove todas as chaves relacionadas ao usuário do localStorage
         localStorage.removeItem("ID_USUARIO");
         localStorage.removeItem("NOME_USUARIO");
         localStorage.removeItem("EMAIL_USUARIO");
-        localStorage.removeItem("usuarioLogado"); // Para garantir a limpeza completa
+        localStorage.removeItem("usuarioLogado"); 
 
-        window.location.href = "index.html"; // Redireciona para a página inicial
+        window.location.href = "index.html";
     }
 </script>

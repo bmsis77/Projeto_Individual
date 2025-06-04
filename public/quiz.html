@@ -368,49 +368,36 @@
     }
 
     function tentarNovamente() {
-        // Função chamada quando o botão "Tentar novamente" é clicado.
-        location.reload(); // Recarrega a página, reiniciando o quiz.
+        location.reload(); 
     }
 
-    // --- Lógica de Validação de Login e Menu Dinâmico ---
     window.addEventListener("DOMContentLoaded", () => {
-        // Adiciona um ouvinte de evento que é acionado quando o DOM é completamente carregado.
-        // Verifica se o ID do usuário está no localStorage para determinar se está logado
         const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
-        // Verifica se a chave 'ID_USUARIO' existe no localStorage para saber se o usuário está logado.
 
         const menu = document.querySelector(".menu ul");
-        // Obtém o elemento <ul> dentro do div com a classe 'menu'.
-        menu.innerHTML = ''; // Limpa o menu existente antes de preencher
-        // Remove quaisquer itens de menu existentes para evitar duplicatas.
+        menu.innerHTML = ''; 
 
         if (usuarioLogado) {
-            // Se o usuário está logado.
-            // Preenche o menu com links para Home, Sobre, Quiz, Dashboard e Sair.
             menu.innerHTML = `
                 <li><a href="index.html">Home</a></li>
-                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="sobre.html">Torcida</a></li>
                 <li><a href="quiz.html" class="active">Quiz</a></li>
                 <li><a href="dash.html">Dashboard</a></li>
                 <li><a href="#" onclick="logout()">Sair</a></li>
             `;
         } else {
-            // Se o usuário NÃO está logado.
-            alert("Você precisa estar logado para acessar esta página."); // Alerta o usuário.
-            window.location.href = "login.html"; // Redireciona o usuário para a página de login.
-            // O menu não será exibido aqui, pois o usuário será redirecionado.
-            // Para garantir que o menu da página de login seja o correto, ele já foi ajustado lá.
+            alert("Você precisa estar logado para acessar esta página."); 
+            window.location.href = "login.html"; 
+ 
         }
     });
 
     function logout() {
-        // Função chamada para realizar o logout do usuário.
-        // Remove todas as chaves relacionadas ao usuário do localStorage.
         localStorage.removeItem("ID_USUARIO");
         localStorage.removeItem("NOME_USUARIO");
         localStorage.removeItem("EMAIL_USUARIO");
         localStorage.removeItem("usuarioLogado");
 
-        window.location.href = "index.html"; // Redireciona para a página inicial após o logout.
+        window.location.href = "index.html";
     }
 </script>

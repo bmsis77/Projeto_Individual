@@ -1,4 +1,3 @@
-// src/models/dashboardTorcidaModel.js
 var database = require("../database/config");
 
 function buscarPontuacaoMediaQuiz() {

@@ -1,33 +1,46 @@
+// Importa o arquivo que se conecta ao banco de dados (usuarioModel.js)
 var usuarioModel = require("../models/usuarioModel");
 
+// Função que faz o login do usuário
 function autenticar(req, res) {
+    // Pega o email e a senha que vieram do corpo da requisição (formulário)
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
+    // Verifica se o email foi enviado
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
+    }
+    // Verifica se a senha foi enviada
+    else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
     } else {
+        // Chama a função do model para verificar se o usuário existe no banco de dados
         usuarioModel.autenticar(email, senha)
             .then(function (resultadoAutenticar) {
+                // Mostra no console quantos resultados vieram do banco
                 console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
                 console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
 
+                // Se encontrou apenas 1 usuário, envia os dados dele como resposta
                 if (resultadoAutenticar.length == 1) {
                     res.json({
-                        // Alterado de 'idUsuario' para 'id' para corresponder ao que o frontend espera
                         id: resultadoAutenticar[0].idUsuario,
                         nome: resultadoAutenticar[0].nome,
                         email: resultadoAutenticar[0].email,
                         jogadorFavorito: resultadoAutenticar[0].JogadorFavorito
                     });
-                } else if (resultadoAutenticar.length == 0) {
+                }
+                // Se não encontrou nenhum usuário
+                else if (resultadoAutenticar.length == 0) {
                     res.status(403).send("Email e/ou senha inválido(s)");
-                } else {
+                }
+                // Se encontrou mais de um com o mesmo login e senha (erro de duplicidade)
+                else {
                     res.status(403).send("Mais de um usuário com o mesmo login e senha!");
                 }
             })
+            // Se der erro na busca, mostra no console e envia o erro
             .catch(function (erro) {
                 console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
@@ -35,13 +48,16 @@ function autenticar(req, res) {
     }
 }
 
+// Função que faz o cadastro de um novo usuário
 function cadastrar(req, res) {
+    // Pega os dados do corpo da requisição (formulário de cadastro)
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var telefone = req.body.telefoneServer;
     var jogadorFavorito = req.body.jogadorFavoritoServer;
 
+    // Verifica se todos os campos foram preenchidos
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
@@ -53,13 +69,16 @@ function cadastrar(req, res) {
     } else if (jogadorFavorito == undefined) {
         res.status(400).send("Seu jogador favorito está undefined!");
     } else {
+        // Se tudo estiver preenchido, chama a função do model para salvar no banco
         usuarioModel.cadastrar(nome, email, senha, telefone, jogadorFavorito)
             .then(
                 function (resultado) {
+                    // Retorna o resultado do cadastro
                     res.json(resultado);
                 }
             ).catch(
                 function (erro) {
+                    // Se der erro, mostra no console e envia para o navegador
                     console.log(erro);
                     console.log(
                         "\nHouve um erro ao realizar o cadastro! Erro: ",
@@ -71,60 +90,60 @@ function cadastrar(req, res) {
     }
 }
 
-// --- NOVO CÓDIGO DA FUNÇÃO QUIZELAR ---
-async function quizelar(req, res) {
-    // Captura os dados enviados pelo frontend
-    const fk_idUsuario = req.body.fk_idUsuario; // ID do usuário logado
-    const pontuacaoTotalQuiz = req.body.pontuacao; // Pontuação total de acertos do quiz (renomeado no backend)
-    const respostasDoUsuario = req.body.respostasDoUsuario; // Array de respostas individuais
+// Função que salva as respostas de um quiz
+function quizelar(req, res) {
+    // Pega os dados enviados pelo front-end
+    var fk_idUsuario = req.body.fk_idUsuario;
+    var pontuacaoTotalQuiz = req.body.pontuacao;
+    var respostasDoUsuario = req.body.respostasDoUsuario;
 
-    // Validações básicas dos dados recebidos
-    if (fk_idUsuario == undefined || pontuacaoTotalQuiz == undefined || respostasDoUsuario == undefined || !Array.isArray(respostasDoUsuario)) {
-        res.status(400).send("Dados do quiz incompletos ou inválidos! Verifique fk_idUsuario, pontuacao e respostasDoUsuario.");
-        return;
-    }
+    // Verifica se os dados principais foram enviados corretamente
+    if (fk_idUsuario == undefined) {
+        res.status(400).send("O ID do usuário está undefined!");
+    } else if (pontuacaoTotalQuiz == undefined) {
+        res.status(400).send("A pontuação está undefined!");
+    } else if (respostasDoUsuario == undefined) {
+        res.status(400).send("As respostas do quiz estão undefined!");
+    } else {
+        // Cria uma lista para armazenar todas as promessas de inserção no banco
+        var promessas = [];
 
-    try {
-        // Array para guardar todas as promessas de inserção de respostas
-        const promessasDeInsercao = [];
+        // Percorre todas as respostas do usuário
+        for (var i = 0; i < respostasDoUsuario.length; i++) {
+            var resposta = respostasDoUsuario[i];
 
-        // Itera sobre cada resposta individual no array
-        for (const resposta of respostasDoUsuario) {
-            // Valida se a resposta individual tem os campos necessários
+            // Verifica se cada resposta tem os campos necessários
             if (resposta.fk_idPergunta == undefined || resposta.respostaSelecionada == undefined) {
-                console.warn("Uma resposta individual dentro do array está incompleta. Pulando:", resposta);
-                continue; // Pula esta resposta e continua para a próxima
+                console.warn("Resposta inválida. Pulando:", resposta);
+                continue;
             }
 
-            // Adiciona a promessa de inserção para cada resposta ao array
-            // O model 'salvarRespostaQuiz' será chamado para cada resposta
-            promessasDeInsercao.push(
+            // Adiciona a promessa de salvar essa resposta no banco
+            promessas.push(
                 usuarioModel.salvarRespostaQuiz(
                     fk_idUsuario,
                     resposta.fk_idPergunta,
                     resposta.respostaSelecionada,
-                    pontuacaoTotalQuiz // A pontuação total é enviada para cada registro de resposta
+                    pontuacaoTotalQuiz
                 )
             );
         }
 
-        // Aguarda que todas as operações de inserção no banco de dados sejam concluídas
-        const resultados = await Promise.all(promessasDeInsercao);
-        
-        console.log("Todas as respostas do quiz salvas com sucesso no BD!");
-        // Envia uma resposta de sucesso ao frontend
-        res.status(200).json({ message: "Quiz salvo com sucesso!", resultados: resultados });
-
-    } catch (erro) {
-        // Captura e loga qualquer erro que ocorra durante o processo de salvamento
-        console.error("Erro ao salvar quiz no controller:", erro.sqlMessage || erro.message);
-        // Envia uma resposta de erro detalhada ao frontend
-        res.status(500).json({ error: "Erro ao salvar quiz.", details: erro.sqlMessage || erro.message });
+        // Aguarda todas as respostas serem salvas e depois envia o resultado
+        Promise.all(promessas).then(function (resultados) {
+            console.log("Todas as respostas do quiz foram salvas com sucesso!");
+            res.status(200).json({ message: "Quiz salvo com sucesso!", resultados: resultados });
+        }).catch(function (erro) {
+            // Se der erro ao salvar, mostra no console e envia mensagem de erro
+            console.error("Erro ao salvar quiz:", erro.sqlMessage || erro.message);
+            res.status(500).json({ error: "Erro ao salvar quiz.", details: erro.sqlMessage || erro.message });
+        });
     }
 }
 
+// Exporta as três funções para que outros arquivos possam usar
 module.exports = {
     autenticar,
     cadastrar,
-    quizelar // Exportando a função quizelar atualizada
+    quizelar
 };

@@ -1,4 +1,3 @@
-// src/routes/dashboardTorcidaRoute.js
 var express = require("express");
 var router = express.Router();
 var dashboardTorcidaController = require("../controllers/dashboardTorcidaController");
