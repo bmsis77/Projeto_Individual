@@ -13,25 +13,15 @@ var HOST_APP = process.env.APP_HOST;
 var app = express();
 
 app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, "public")));
 
 var usuarioRouter = require("./src/routes/usuarios");
-var dashboardTorcidaRouter = require("./src/routes/dashboardTorcidaRoute.js"); 
+var dashboardTorcidaRouter = require("./src/routes/dashboardTorcidaRoute"); 
 
 app.use("/usuarios", usuarioRouter);
 app.use("/dashboard", dashboardTorcidaRouter);
-
-app.get('/dashboard/pontuacao-usuario/:idUsuario', (req, res) => {
-  const idUsuario = req.params.idUsuario;
-
-  dashboardModel.buscarPorcentagensPontuacao(idUsuario)
-    .then(result => res.json(result))
-    .catch(err => res.status(500).json({ error: err.message }));
-});
 
 
 app.listen(PORTA_APP, function () {

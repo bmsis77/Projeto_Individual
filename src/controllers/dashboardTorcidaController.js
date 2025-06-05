@@ -1,10 +1,12 @@
-// src/controllers/dashboardTorcidaController.js
 var dashboardTorcidaModel = require("../models/dashboardTorcidaModel");
 
 function getPontuacaoMediaQuiz(req, res) {
+
+    console.log("Recuperando a pontuação média do quiz");
+
     dashboardTorcidaModel.buscarPontuacaoMediaQuiz().then(function (resultado) {
         if (resultado.length > 0) {
-            res.status(200).json(resultado[0]); 
+            res.status(200).json(resultado[0]);
         } else {
             res.status(204).send("Nenhum resultado encontrado para pontuação média!");
         }
@@ -16,6 +18,9 @@ function getPontuacaoMediaQuiz(req, res) {
 }
 
 function getQuestaoMaisErrada(req, res) {
+
+    console.log("Recuperando a questão mais errada");
+
     dashboardTorcidaModel.buscarQuestaoMaisErrada().then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado[0]);
@@ -30,6 +35,9 @@ function getQuestaoMaisErrada(req, res) {
 }
 
 function getTotalUsuarios(req, res) {
+
+    console.log("Recuperando o total de usuários");
+
     dashboardTorcidaModel.buscarTotalUsuarios().then(function (resultado) {
         if (resultado.length > 0) {
             res.status(200).json(resultado[0]);
@@ -44,9 +52,12 @@ function getTotalUsuarios(req, res) {
 }
 
 function getVotosJogadores(req, res) {
+
+    console.log("Recuperando os votos dos jogadores");
+
     dashboardTorcidaModel.buscarVotosJogadores().then(function (resultado) {
         if (resultado.length > 0) {
-            res.status(200).json(resultado); // Retorna um array de jogadores e seus votos
+            res.status(200).json(resultado);
         } else {
             res.status(204).send("Nenhum voto de jogador encontrado!");
         }
@@ -58,17 +69,18 @@ function getVotosJogadores(req, res) {
 }
 
 function getPorcentagensPontuacao(req, res) {
-    dashboardTorcidaModel.buscarPorcentagensPontuacao().then(function (resultado) {
-        if (resultado.length > 0) {
-            res.status(200).json(resultado[0]);
-        } else {
-            res.status(204).send("Nenhuma porcentagem de pontuação encontrada!");
-        }
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar as porcentagens de pontuação.", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
+    const idUsuario = req.params.idUsuario; 
+    dashboardTorcidaModel.buscarPorcentagensPontuacao(idUsuario)
+        .then(function (resultado) {
+            if (resultado.length > 0) {
+                res.status(200).json(resultado[0]);
+            } else {
+                res.status(200).json({ respostasCertas: 0, respostasErradas: 0 }); 
+            }
+        }).catch(function (erro) {
+            console.error("Erro ao buscar porcentagens de pontuação:", erro);
+            res.status(500).json(erro.sqlMessage || erro.message);
+        });
 }
 
 module.exports = {

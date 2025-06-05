@@ -59,9 +59,9 @@ box-shadow: 0 7px 25px 0 rgba(0, 0, 0, 0.08);
 }
 
 .number{
-    font-size: 35px;
+    font-size: 20px;
     font-weight: 500;
-    color: green;
+    color: rgb(3, 85, 3);
 }
 
 .card_name{

@@ -16,7 +16,7 @@
         </div>
         <div class="menu">
             <ul>
-                </ul>
+            </ul>
         </div>
     </div>
     <div class="main">
@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="number" id="pontuacaoMediaQuiz">$</div>
-                    <div class="card-name">Pontuação Média do Quiz</div>
+                    <div class="card-name">Pontuação Média dos Usuários no Quiz</div>
                 </div>
                 <div class="icon-box">
                     <i class="fas fa-user-graduate"></i>
@@ -45,259 +45,188 @@
                     <div class="card-name">Usuários Cadastrados</div>
                 </div>
                 <div class="icon-box">
-                    <i class="fas fa-child"></i> </div>
+                    <i class="fas fa-child"></i>
+                </div>
             </div>
         </div>
         <div class="charts">
             <div class="chart">
                 <h2>Jogadores Favoritos</h2>
-                <canvas id="jogadoresFavoritosChart"></canvas> </div>
+                <canvas id="jogadoresFavoritosChart"></canvas>
+            </div>
             <div class="chart" id="doughnut-chart">
                 <h2>Porcentagens da Pontuação</h2>
-                <canvas id="pontuacaoDoughnutChart"></canvas> </div>
+                <canvas id="pontuacaoDoughnutChart"></canvas>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
-    <script src="dashScript.js"></script>
-</body>
+    <script>
+            const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
 
-</html>
-<script>
+            const menu = document.querySelector(".menu ul");
+            menu.innerHTML = '';
 
-function buscarDadosKPIs() {
-const idUsuario = localStorage.getItem("ID_USUARIO");
+            if (usuarioLogado) {
+                menu.innerHTML = `
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Torcida</a></li>
+                    <li><a href="quiz.html">Quiz</a></li>
+                    <li><a href="dash.html" class="active">Dashboard</a></li>
+                    <li><a href="#" onclick="logout()">Sair</a></li>
+                `;
+            } else {
+                menu.innerHTML = `
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Torcida</a></li>
+                    <li><a href="login.html">Login</a></li>
+                `;
+            };
 
-fetch(`/dashboard/pontuacao-usuario/${idUsuario}`)
-  .then(res => res.json())
-  .then(data => {
-    console.log(data);
-  });
+        function logout() {
+            localStorage.removeItem("ID_USUARIO");
+            localStorage.removeItem("NOME_USUARIO");
+            localStorage.removeItem("EMAIL_USUARIO");
+            localStorage.removeItem("usuarioLogado");
 
-    fetch("/dashboard/pontuacao-media")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Erro ao buscar pontuação média.');
-        })
-        .then(data => {
-            console.log('Resposta:', data);
-            let media = Number(data.mediaPontuacao);
-            document.getElementById("pontuacaoMediaQuiz").innerHTML = `${
-                !isNaN(media) ? media.toFixed(2) : 'N/A'
-            }`;
-        })
-        .catch(error => {
-            console.error('Erro na pontuação média:', error);
-            document.getElementById("pontuacaoMediaQuiz").innerHTML = `Erro!`;
-        });
+            window.location.href = "index.html";
+        }
+    let jogadoresFavoritosChart;
+    let pontuacaoDoughnutChart;
 
+    window.onload = () => {
+        buscarDadosKPIs();
+        obterDadosGraficoJogadores();
+        obterDadosGraficoPontuacao();
+    };
 
-    // KPI: Questão Mais Errada
-    fetch("/dashboard/questao-mais-errada")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Erro ao buscar questão mais errada.');
-        })
-        .then(data => {
-            // Atualiza o card com o texto da questão mais errada
-            document.getElementById("questaoMaisErrada").innerHTML = `${data.questaoMaisErrada ? data.questaoMaisErrada : 'N/A'}`;
-        })
-        .catch(error => {
-            console.error('Erro na questão mais errada:', error);
-            document.getElementById("questaoMaisErrada").innerHTML = `Erro!`;
-        });
+    function buscarDadosKPIs() {
+        const idUsuario = sessionStorage.ID_USUARIO;
 
-    // KPI: Família Palmeiras (Total de Usuários)
-    fetch("/dashboard/total-usuarios")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Erro ao buscar total de usuários.');
-        })
-        .then(data => {
-            // Atualiza o card com o total de usuários
-            document.getElementById("totalFamiliaPalmeiras").innerHTML = `${data.totalUsuarios ? data.totalUsuarios : '0'}`;
-        })
-        .catch(error => {
-            console.error('Erro no total de usuários:', error);
-            document.getElementById("totalFamiliaPalmeiras").innerHTML = `Erro!`;
-        });
-}
+        fetch(`/dashboard/pontuacao-media`)
+            .then(res => res.json())
+            .then(data => {
+                const media = Number(data.mediaPontuacao);
+                document.getElementById("pontuacaoMediaQuiz").innerText = !isNaN(media) ? media.toFixed(2) : 'N/A';
+            })
+            .catch(() => {
+                document.getElementById("pontuacaoMediaQuiz").innerText = 'Erro!';
+            });
 
-// --- Variáveis globais para os objetos Chart (para poderem ser destruídos e recriados/atualizados) ---
-let jogadoresFavoritosChart;
-let pontuacaoDoughnutChart;
+        fetch(`/dashboard/questao-mais-errada`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("questaoMaisErrada").innerText = data.questaoMaisErrada || 'N/A';
+            })
+            .catch(() => {
+                document.getElementById("questaoMaisErrada").innerText = 'Erro!';
+            });
 
-// --- Função para plotar o gráfico de Jogadores Favoritos ---
-function plotarVotosJogadores(dados) {
-    const labels = [];
-    const votos = [];
-
-    // Usando for loop para preencher os arrays 'labels' e 'votos'
-    for (let i = 0; i < dados.length; i++) {
-        const item = dados[i];
-        labels.push(item.jogadorFavorito); // Adiciona o nome do jogador ao array de rótulos
-        votos.push(item.votos);           // Adiciona a contagem de votos ao array de votos
+        fetch(`/dashboard/total-usuarios`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("totalFamiliaPalmeiras").innerText = data.totalUsuarios || '0';
+            })
+            .catch(() => {
+                document.getElementById("totalFamiliaPalmeiras").innerText = 'Erro!';
+            });
     }
 
-    const ctx = document.getElementById('jogadoresFavoritosChart');
+    function obterDadosGraficoJogadores() {
+        fetch("/dashboard/votos-jogadores")
+            .then(res => res.json())
+            .then(data => plotarGraficoJogadores(data))
+            .catch(() => console.error("Erro no gráfico de jogadores"));
+    }
 
-    jogadoresFavoritosChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Votos',
-                data: votos,
-                backgroundColor: 'rgb(35, 119, 35)',
-                borderColor: 'rgb(41, 155, 99)', 
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0 // Garante que o eixo Y mostre apenas números inteiros para votos
+    function plotarGraficoJogadores(dados) {
+        const ctx = document.getElementById('jogadoresFavoritosChart').getContext('2d');
+
+        const labels = dados.map(item => item.jogadorFavorito);
+        const votos = dados.map(item => item.votos);
+
+        if (jogadoresFavoritosChart) jogadoresFavoritosChart.destroy();
+
+        jogadoresFavoritosChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Votos',
+                    data: votos,
+                    backgroundColor: 'rgb(35, 119, 35)',
+                    borderColor: 'rgb(41, 155, 99)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
                     }
                 }
-            },
-            plugins: {
-                legend: {
-                    display: false // Esconde a legenda se não for necessária para um único dataset
-                }
             }
-        }
-    });
-}
+        });
+    }
 
-// --- Função para plotar o gráfico de Porcentagens da Pontuação ---
-function plotarPorcentagensPontuacao(dados) {
-    const respostasCertas = dados.respostasCertas;
-    const respostasErradas = dados.respostasErradas;
+    function obterDadosGraficoPontuacao() {
+        const ID_USUARIO = sessionStorage.ID_USUARIO;
+        if (!ID_USUARIO) return;
 
-    const ctx2 = document.getElementById('pontuacaoDoughnutChart');
+        fetch(`/dashboard/porcentagens-pontuacao/${ID_USUARIO}`)
+            .then(res => res.json())
+            .then(data => plotarGraficoPontuacao(data))
+            .catch(err => console.error("Erro no gráfico de pontuação:", err));
+    }
 
-    pontuacaoDoughnutChart = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Certas', 'Erradas'],
-            datasets: [{
-                data: [respostasCertas, respostasErradas],
-                backgroundColor: [
-                    'rgba(41,155,99,1)', // Verde para respostas certas
-                    'rgba(255, 99, 132, 1)' // Vermelho para respostas erradas
-                ],
-                borderColor: [
-                    'rgba(41,155,99,1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            cutout: '70%', // Efeito de rosquinha mais fina
-            plugins: {
-                legend: {
-                    position: 'bottom', // Legenda na parte inferior
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            let total = tooltipItem.dataset.data.reduce((a, b) => a + b, 0);
-                            let currentValue = tooltipItem.raw;
-                            let percentage = parseFloat(((currentValue / total) * 100).toFixed(1));
-                            return `${tooltipItem.label}: ${currentValue} (${percentage}%)`;
+    function plotarGraficoPontuacao(data) {
+        const ctx2 = document.getElementById('pontuacaoDoughnutChart').getContext('2d');
+
+        const respostasCertas = data.respostasCertas || 0;
+        const respostasErradas = data.respostasErradas || 0;
+
+        if (pontuacaoDoughnutChart) pontuacaoDoughnutChart.destroy();
+
+        pontuacaoDoughnutChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Certas', 'Erradas'],
+                datasets: [{
+                    data: [respostasCertas, respostasErradas],
+                    backgroundColor: ['rgba(41,155,99,1)', 'rgba(255, 99, 132, 1)'],
+                    borderColor: ['rgba(41,155,99,1)', 'rgba(255, 99, 132, 1)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                const total = tooltipItem.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = tooltipItem.raw;
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${tooltipItem.label}: ${value} (${percentage}%)`;
+                            }
                         }
                     }
                 }
             }
-        }
-    });
-}
-
-// --- Funções para buscar dados e plotar gráficos ---
-function buscarDadosGraficos() {
-    // Gráfico: Jogadores Favoritos
-    fetch("/dashboard/votos-jogadores")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Erro ao buscar votos dos jogadores.');
-        })
-        .then(data => {
-            // Chama a função para plotar o gráfico com os dados recebidos
-            plotarVotosJogadores(data);
-        })
-        .catch(error => {
-            console.error('Erro nos votos dos jogadores:', error);
         });
-
-    // Gráfico: Porcentagens da Pontuação
-    fetch("/dashboard/porcentagens-pontuacao")
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Erro ao buscar porcentagens de pontuação.');
-        })
-        .then(data => {
-            // Chama a função para plotar o gráfico com os dados recebidos
-            plotarPorcentagensPontuacao(data);
-        })
-        .catch(error => {
-            console.error('Erro nas porcentagens de pontuação:', error);
-        });
-}
-
-// --- Lógica do Menu de Navegação Dinâmico (mantida do seu código original) ---
-window.addEventListener("DOMContentLoaded", () => {
-    // Verifica se o ID do usuário está no localStorage para determinar se está logado
-    const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
-
-    const menu = document.querySelector(".menu ul");
-    menu.innerHTML = ''; // Limpa o menu existente antes de preencher
-
-    if (usuarioLogado) {
-        // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
-        menu.innerHTML = `
-            <li><a href="index.html">Home</a></li>
-            <li><a href="sobre.html">Torcida</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
-            <li><a href="dash.html" class="active">Dashboard</a></li>
-            <li><a href="#" onclick="logout()">Sair</a></li>
-        `;
-    } else {
-        // Se não está logado, mostra Home, Sobre e Login
-        menu.innerHTML = `
-            <li><a href="index.html">Home</a></li>
-            <li><a href="sobre.html">Torcida</a></li>
-            <li><a href="login.html">Login</a></li>
-        `;
     }
-
-    // Chama as funções para carregar os dados dos KPIs e gráficos quando a página é carregada
-    buscarDadosKPIs();
-    buscarDadosGraficos();
-});
-
-// --- FUNÇÃO DE LOGOUT (mantida do seu código original) ---
-function logout() {
-    // Remove todas as chaves relacionadas ao usuário do localStorage
-    localStorage.removeItem("ID_USUARIO");
-    localStorage.removeItem("NOME_USUARIO");
-    localStorage.removeItem("EMAIL_USUARIO");
-    localStorage.removeItem("usuarioLogado");
-
-    window.location.href = "index.html"; // Redireciona para a página inicial
-}
 </script>
+</body>
+
+</html>
