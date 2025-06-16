@@ -73,19 +73,16 @@
                     return resposta.json().then((dados) => {
                         alert("Login realizado com sucesso! Redirecionando para o quiz...");
 
-                        // --- ARMAZENAMENTO NO LOCALSTORAGE ---
-                        // Usando a chave "ID_USUARIO" consistentemente
                         localStorage.setItem("ID_USUARIO", dados.id);
                         localStorage.setItem("NOME_USUARIO", dados.nome);
                         localStorage.setItem("EMAIL_USUARIO", dados.email);
-                        // A chave "usuarioLogado" é mantida por segurança/compatibilidade, mas "ID_USUARIO" é a principal
                         localStorage.setItem("usuarioLogado", "true");
 
-                        window.location.href = "quiz.html"; // Redireciona para o quiz
+                        window.location.href = "quiz.html"; 
                     });
                 } else {
                     return resposta.text().then((mensagem) => {
-                        alert(mensagem); // Exibe a mensagem de erro do backend
+                        alert(mensagem);
                     });
                 }
             })
@@ -95,16 +92,13 @@
             });
     }
 
-    // --- LÓGICA DO MENU DE NAVEGAÇÃO DINÂMICO ---
     window.addEventListener("DOMContentLoaded", () => {
-        // Verifica se o ID do usuário está no localStorage para determinar se está logado
         const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
 
         const menu = document.querySelector(".menu ul");
-        menu.innerHTML = ''; // Limpa o menu existente antes de preencher
+        menu.innerHTML = '';
 
         if (usuarioLogado) {
-            // Se o usuário está logado, mostra Home, Sobre, Quiz, Dashboard e Sair
             menu.innerHTML = `
                 <li><a href="index.html">Home</a></li>
                 <li><a href="sobre.html">Torcida</a></li>
@@ -113,7 +107,6 @@
                 <li><a href="#" onclick="logout()">Sair</a></li>
             `;
         } else {
-            // Se não está logado, mostra Home, Sobre e Login
             menu.innerHTML = `
                 <li><a href="index.html">Home</a></li>
                 <li><a href="sobre.html">Torcida</a></li>
@@ -122,14 +115,12 @@
         }
     });
 
-    // --- FUNÇÃO DE LOGOUT ---
     function logout() {
-        // Remove todas as chaves relacionadas ao usuário do localStorage
         localStorage.removeItem("ID_USUARIO");
         localStorage.removeItem("NOME_USUARIO");
         localStorage.removeItem("EMAIL_USUARIO");
-        localStorage.removeItem("usuarioLogado"); // Remove esta chave para limpeza completa
+        localStorage.removeItem("usuarioLogado"); 
 
-        window.location.href = "index.html"; // Redireciona para a página inicial
+        window.location.href = "index.html"; 
     }
 </script>

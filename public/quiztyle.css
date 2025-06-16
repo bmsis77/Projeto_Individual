@@ -88,7 +88,6 @@ hr {
     font-size: 18px;
     border-radius: 8px;
     align-self: center;
-    /* garante centralização no flex container */
 }
 
 #telaInicial {
@@ -96,9 +95,7 @@ hr {
     flex-direction: column;
     align-items: center;
     gap: 30px;
-    /* espaço entre "Bem-Vindo" e botão */
     margin-top: 30px;
-    /* empurra tudo um pouco mais para baixo no card */
 }
 
 #btnIniciarQuiz:hover {
@@ -178,7 +175,6 @@ body {
     color: white;
     font-size: 40px;
     margin-bottom: 0;
-    /* espaço abaixo do texto */
 }
 
 #pontuacao img {
@@ -189,5 +185,4 @@ body {
 
 .container {
     margin-top: 80px;
-    /* aumenta a distância entre o header fixo e o conteúdo */
 }

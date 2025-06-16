@@ -33,7 +33,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="number" id="questaoMaisErrada">$</div>
-                    <div class="card-name">Questão Mais Errada</div>
+                    <div class="card-name">Questão Mais Errada Pelos Usuários</div>
                 </div>
                 <div class="icon-box">
                     <i class="fas fa-users"></i>
@@ -42,7 +42,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="number" id="totalFamiliaPalmeiras">$</div>
-                    <div class="card-name">Usuários Cadastrados</div>
+                    <div class="card-name">Total De Usuários Cadastrados</div>
                 </div>
                 <div class="icon-box">
                     <i class="fas fa-child"></i>
@@ -51,7 +51,7 @@
         </div>
         <div class="charts">
             <div class="chart">
-                <h2>Jogadores Favoritos</h2>
+                <h2>Jogadores Favoritos Dos Usuários</h2>
                 <canvas id="jogadoresFavoritosChart"></canvas>
             </div>
             <div class="chart" id="doughnut-chart">
@@ -62,36 +62,36 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
-    <script>
-            const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
+  <script>
+    const usuarioLogado = localStorage.getItem("ID_USUARIO") !== null;
 
-            const menu = document.querySelector(".menu ul");
-            menu.innerHTML = '';
+    const menu = document.querySelector(".menu ul");
+    menu.innerHTML = '';
 
-            if (usuarioLogado) {
-                menu.innerHTML = `
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="sobre.html">Torcida</a></li>
-                    <li><a href="quiz.html">Quiz</a></li>
-                    <li><a href="dash.html" class="active">Dashboard</a></li>
-                    <li><a href="#" onclick="logout()">Sair</a></li>
-                `;
-            } else {
-                menu.innerHTML = `
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="sobre.html">Torcida</a></li>
-                    <li><a href="login.html">Login</a></li>
-                `;
-            };
+    if (usuarioLogado) {
+        menu.innerHTML = `
+            <li><a href="index.html">Home</a></li>
+            <li><a href="sobre.html">Torcida</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+            <li><a href="dash.html" class="active">Dashboard</a></li>
+            <li><a href="#" onclick="logout()">Sair</a></li>
+        `;
+    } else {
+        menu.innerHTML = `
+            <li><a href="index.html">Home</a></li>
+            <li><a href="sobre.html">Torcida</a></li>
+            <li><a href="login.html">Login</a></li>
+        `;
+    }
 
-        function logout() {
-            localStorage.removeItem("ID_USUARIO");
-            localStorage.removeItem("NOME_USUARIO");
-            localStorage.removeItem("EMAIL_USUARIO");
-            localStorage.removeItem("usuarioLogado");
+    function logout() {
+        localStorage.removeItem("ID_USUARIO");
+        localStorage.removeItem("NOME_USUARIO");
+        localStorage.removeItem("EMAIL_USUARIO");
+        localStorage.removeItem("usuarioLogado");
 
-            window.location.href = "index.html";
-        }
+        window.location.href = "index.html";
+    }
     let jogadoresFavoritosChart;
     let pontuacaoDoughnutChart;
 
@@ -143,10 +143,13 @@
     function plotarGraficoJogadores(dados) {
         const ctx = document.getElementById('jogadoresFavoritosChart').getContext('2d');
 
-        const labels = dados.map(item => item.jogadorFavorito);
-        const votos = dados.map(item => item.votos);
+        const labels = [];
+        const votos = [];
 
-        if (jogadoresFavoritosChart) jogadoresFavoritosChart.destroy();
+        for (let i = 0; i < dados.length; i++) {
+            labels.push(dados[i].jogadorFavorito);
+            votos.push(dados[i].votos);
+        }
 
         jogadoresFavoritosChart = new Chart(ctx, {
             type: 'bar',
@@ -164,7 +167,9 @@
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        min: 0,
+                        max: 2,
                     }
                 },
                 plugins: {
@@ -177,31 +182,37 @@
     }
 
     function obterDadosGraficoPontuacao() {
-        const ID_USUARIO = sessionStorage.ID_USUARIO;
-        if (!ID_USUARIO) return;
+   //     if (!ID_USUARIO) {return;
+     //   }
 
-        fetch(`/dashboard/porcentagens-pontuacao/${ID_USUARIO}`)
-            .then(res => res.json())
-            .then(data => plotarGraficoPontuacao(data))
+        var idUsuario = localStorage.ID_USUARIO
+
+        fetch(`/dashboard/porcentagens-pontuacao/${idUsuario}`)
+            .then(res => {
+                res.json().then(resposta => {
+
+                    console.log('resposta: ', resposta)
+                    plotarGraficoPontuacao(resposta)
+                }
+
+                )
+            })
             .catch(err => console.error("Erro no gráfico de pontuação:", err));
     }
 
-    function plotarGraficoPontuacao(data) {
+    function plotarGraficoPontuacao(dado) {
         const ctx2 = document.getElementById('pontuacaoDoughnutChart').getContext('2d');
 
-        const respostasCertas = data.respostasCertas || 0;
-        const respostasErradas = data.respostasErradas || 0;
-
-        if (pontuacaoDoughnutChart) pontuacaoDoughnutChart.destroy();
+        const respostasCertas = dado[0].percentual_acerto;
 
         pontuacaoDoughnutChart = new Chart(ctx2, {
             type: 'doughnut',
             data: {
-                labels: ['Certas', 'Erradas'],
+                labels: ['Pontuação'],
                 datasets: [{
-                    data: [respostasCertas, respostasErradas],
-                    backgroundColor: ['rgba(41,155,99,1)', 'rgba(255, 99, 132, 1)'],
-                    borderColor: ['rgba(41,155,99,1)', 'rgba(255, 99, 132, 1)'],
+                    data: [respostasCertas],
+                    backgroundColor: ['rgba(41,155,99,1)'],
+                    borderColor: ['rgba(41,155,99,1)'],
                     borderWidth: 1
                 }]
             },

@@ -69,18 +69,22 @@ function getVotosJogadores(req, res) {
 }
 
 function getPorcentagensPontuacao(req, res) {
-    const idUsuario = req.params.idUsuario; 
-    dashboardTorcidaModel.buscarPorcentagensPontuacao(idUsuario)
-        .then(function (resultado) {
-            if (resultado.length > 0) {
-                res.status(200).json(resultado[0]);
-            } else {
-                res.status(200).json({ respostasCertas: 0, respostasErradas: 0 }); 
-            }
-        }).catch(function (erro) {
-            console.error("Erro ao buscar porcentagens de pontuação:", erro);
-            res.status(500).json(erro.sqlMessage || erro.message);
-        });
+
+    var idUSuario = req.params.idUsuario
+
+    console.log("Recuperando pontuação do jogador");
+
+    dashboardTorcidaModel.buscarPorcentagensPontuacao(idUSuario).then(function (resultado) {
+        if (resultado.length > 0) {
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Nenhuma pontuação encontrada!");
+        }
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log("Houve um erro ao buscar a porcentagem do jogador", erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 
 module.exports = {

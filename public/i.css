@@ -192,13 +192,13 @@ section.slider {
 
 .blog-text h2 {
     margin: 0;
-    color: #ff3300; /* sua cor secundaria */
+    color: #ff3300; 
 }
 
 .blog-text p {
     margin-top: 10px;
     font-size: 16px;
-    color: #08c431; /* seu "new-black" */
+    color: #08c431;
 }
 
 .blog {
@@ -206,7 +206,7 @@ section.slider {
 }
 footer {
     background-color: #054903;
-    color: #E8E8E8; /* Branco personalizado */
+    color: #E8E8E8; 
     padding: 40px 20px 20px;
     font-family: 'Arial', sans-serif;
 }

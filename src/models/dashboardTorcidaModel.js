@@ -37,22 +37,12 @@ function buscarVotosJogadores() {
     return database.executar(instrucaoSql);
 }
 
-function buscarPorcentagensPontuacao(ID_USUARIO) { 
+function buscarPorcentagensPontuacao(idUSuario) { 
     var instrucaoSql = `
-        SELECT 
-            u.idUsuario,
-            ROUND(
-                (SUM(CASE 
-                        WHEN uq.respostaSelecionada = p.respCorreta THEN 1 
-                        ELSE 0 
-                    END) / COUNT(*)) * 100, 2
-            ) AS percentual_acerto
-        FROM Usuario u
-        JOIN Usuario_Quiz uq ON u.idUsuario = uq.fk_idUsuario
-        JOIN Pergunta p ON uq.fk_idPergunta = p.idPergunta
-        WHERE u.idUsuario = ${ID_USUARIO}
-        GROUP BY u.idUsuario;
-    `;
+        SELECT u.idUsuario, ROUND( (SUM(CASE WHEN uq.respostaSelecionada = p.respCorreta THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2) AS percentual_acerto
+    FROM Usuario u JOIN Usuario_Quiz uq ON u.idUsuario = uq.fk_idUsuario
+    JOIN Pergunta p ON uq.fk_idPergunta = p.idPergunta WHERE u.idUsuario = ${idUSuario} GROUP BY u.idUsuario;`;
+    console.log("Executando a função \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 

@@ -6,6 +6,6 @@ router.get("/pontuacao-media", dashboardTorcidaController.getPontuacaoMediaQuiz)
 router.get("/questao-mais-errada", dashboardTorcidaController.getQuestaoMaisErrada);
 router.get("/total-usuarios", dashboardTorcidaController.getTotalUsuarios);
 router.get("/votos-jogadores", dashboardTorcidaController.getVotosJogadores);
-router.get("/porcentagens-pontuacao", dashboardTorcidaController.getPorcentagensPontuacao);
+router.get("/porcentagens-pontuacao/:idUsuario", dashboardTorcidaController.getPorcentagensPontuacao);
 
 module.exports = router;
