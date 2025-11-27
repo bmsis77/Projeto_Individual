@@ -41,8 +41,4 @@ INSERT INTO Pergunta (idPergunta, pergunta, respCorreta) VALUES
 (14, 'Qual foi o rival europeu que o verdão enfrentou no histórico título do Torneio Internacional de Clubes 1951', 'alternativaB'),
 (15, 'Quais foram os jogadores que fizeram os gols na histórica vitória de 4x0 contra o seu maior rival, Crédito Para Negativado!', 'alternativaB');
 
-SELECT * FROM Usuario;
-SELECT * FROM Pergunta;
-SELECT * FROM Usuario_Quiz;
-
 select distinct fk_idUsuario as 'idUsuario', pontuacaoDaTentativa as 'Pontuação'from Usuario_Quiz;
